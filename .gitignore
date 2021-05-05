@@ -1,0 +1,16 @@
+# Text backup files
+*.bak
+
+# Database
+*.sqlite3
+
+*.pyc  
+*~  
+__pycache__  
+
+static  
+.DS_Store
+
+.vs
+.vscode
+env
