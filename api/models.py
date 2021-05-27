@@ -18,3 +18,15 @@
 from django.db import models
 
 # Create your models here.
+class GermanDataModel(models.Model):
+    GenderTypes = models.Choices('male', 'female')
+    RiskTypes = models.Choices('good', 'bad')
+
+    age = models.IntegerField(blank=True)
+    sex = models.CharField(blank=True, choices=GenderTypes.choices, max_length=10)
+    job = models.CharField(max_length=100)
+    housing = models.CharField(max_length=50)
+    credit_amount = models.FloatField(blank=True, max_length=50)
+    duration = models.IntegerField(blank=True)
+    purpose = models.CharField(blank=True, max_length=50)
+    risk = models.CharField(blank=True, choices=RiskTypes.choices, max_length=10)
