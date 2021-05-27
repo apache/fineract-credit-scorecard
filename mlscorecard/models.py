@@ -21,6 +21,7 @@ The module contains model definitions of various tested models for credit
 assessment
 """
 
+import numpy as np
 import pandas as pd
 
 from sklearn.preprocessing import LabelEncoder
@@ -28,8 +29,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV, ShuffleSplit
-from sklearn.metrics import confusion_matrix, accuracy_score, f1_score
-
+from sklearn.metrics import confusion_matrix, accuracy_score, f1_score, recall_score, precision_score
 
 class Model(object):
     """
@@ -68,6 +68,8 @@ class Model(object):
         Random State: {self.random_state}
         Number of Splits: {self.n_splits}
         Parameter Grid: {self.params}
+
+        {self.model}
         """
 
     def train(self, x_train, y_train):
@@ -121,9 +123,14 @@ class Model(object):
 
         y_pred = self.predict(x_test)
         cm = confusion_matrix(y_pred, y_test)
-        acc_sc = accuracy_score(y_test, y_pred, normalize=True)
-        f1 = f1_score(self.y_test, y_pred, average=None)
-        return {"accuracy" : acc_sc, "f1_score" : f1, "confusion_matrix" : cm}
+        accuracy = accuracy_score(y_test, y_pred, normalize=True)
+        f1 = f1_score(self.y_test, y_pred, average="macro")
+        recall = recall_score(y_test, y_pred, average="macro")
+        precision = precision_score(y_test, y_pred, average="macro")
+        return {"accuracy" : accuracy,
+                "f1_score" : f1,
+                "recall_score" : recall,
+                "precision_score": precision}
 
 
 class RandomForest(Model):
@@ -183,6 +190,10 @@ class RandomForest(Model):
         # Encode text columns to number values
         for category in categorical:
             data[category] = le.fit_transform(data[category])
+
+        for col in data.columns:
+            if(col not in categorical):
+                data[col] = (data[col].astype('float') - np.mean(data[col].astype('float')))/np.std(data[col].astype('float'))
 
         # Get Training parameters
         target_col = data.columns[-1]
