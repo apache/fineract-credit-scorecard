@@ -18,15 +18,21 @@
 from django.db import models
 
 # Create your models here.
-class GermanDataModel(models.Model):
-    GenderTypes = models.Choices('male', 'female')
-    RiskTypes = models.Choices('good', 'bad')
 
-    age = models.IntegerField(blank=True)
+GenderTypes = models.Choices('male', 'female')
+RiskTypes = models.Choices('good', 'bad')
+
+class GermanDataModel(models.Model):
+
+    created = models.DateTimeField(auto_now_add=True)
+    age = models.IntegerField(blank=False)
     sex = models.CharField(blank=True, choices=GenderTypes.choices, max_length=10)
     job = models.CharField(max_length=100)
     housing = models.CharField(max_length=50)
-    credit_amount = models.FloatField(blank=True, max_length=50)
-    duration = models.IntegerField(blank=True)
+    credit_amount = models.FloatField(blank=False, max_length=50)
+    duration = models.IntegerField(blank=False)
     purpose = models.CharField(blank=True, max_length=50)
     risk = models.CharField(blank=True, choices=RiskTypes.choices, max_length=10)
+    
+    class Meta:
+        ordering = ['created']
