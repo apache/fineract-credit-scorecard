@@ -15,10 +15,13 @@
 # limitations under the License.
 #
 
-from api.serializers import GroupSerializer, UserSerializer
+from api.models import GermanDataModel
+from api.serializers import GermanDataModelSerializer, GroupSerializer, UserSerializer
 from django.contrib.auth.models import Group, User
-from rest_framework import viewsets, permissions
-from django.shortcuts import render
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import viewsets, permissions, status
+from django.shortcuts import get_object_or_404, render
 
 # Create your views here.
 
@@ -38,3 +41,33 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+class ScorecardViewSet(viewsets.ViewSet):
+    """
+    List all german data, or create a new GermanDataModel.
+    """
+    def list(self, request):
+        queryset = GermanDataModel.objects.all()
+        serializer = GermanDataModelSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = GermanDataModel.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = GermanDataModelSerializer(user)
+        return Response(serializer.data)
+        
+    # def get(self, request, format=None):
+    #     snippets = GermanDataModel.objects.all()
+    #     serializer = GermanDataModelSerializer(snippets, many=True)
+    #     return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def predict(self, request, format=None):
+        data = self.get_object()
+        queryset = GermanDataModel.objects.all()
+        serializer = GermanDataModelSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
