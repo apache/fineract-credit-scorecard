@@ -13,22 +13,28 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+# =============================================================================
 
 """
-Definition of urls for scorecardapp.
+Definition of urls for api resource.
 """
 
+from django.conf.urls import url
 from django.urls import path, include
 from rest_framework import routers
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
-from api import views as apiViews
+
+from api.views import (ABTestViewSet, EndpointViewSet,
+                       MLAlgorithmStatusViewSet, MLAlgorithmViewSet, 
+                       MLRequestViewSet, PredictView, StopABTestView)
 
 
-router = routers.DefaultRouter()
-router.register(r'users', apiViews.UserViewSet)
-router.register(r'groups', apiViews.GroupViewSet)
-router.register(r'scorecard', apiViews.ScorecardViewSet, basename='scorecard')
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r"endpoints", EndpointViewSet, basename="endpoints")
+router.register(r"mlalgorithms", MLAlgorithmViewSet, basename="mlalgorithms")
+router.register(r"mlalgorithmstatuses", MLAlgorithmStatusViewSet, basename="mlalgorithmstatuses")
+router.register(r"mlrequests", MLRequestViewSet, basename="mlrequests")
+router.register(r"abtests", ABTestViewSet, basename="abtests")
 
 
 urlpatterns = [
@@ -39,8 +45,10 @@ urlpatterns = [
     path('api/docs/redoc', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
     # API Views
-    # Wire up our API using automatic URL routing.
-    # Additionally, we include login URLs for the browsable API.
     path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    url(r"^api/v1/(?P<endpoint_name>.+)/predict$", PredictView.as_view(), name="predict"),
+    url(r"^api/v1/stop_ab_test/(?P<ab_test_id>.+)", StopABTestView.as_view(), name="stop_ab"),
 ]
+ 
