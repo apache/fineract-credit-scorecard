@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+# =============================================================================
 
 """
 Django settings for scorecardapp project.
@@ -47,8 +47,11 @@ ALLOWED_HOSTS = []
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
 INSTALLED_APPS = [
+    'ml',
     'app',
     'api',
+    'zoo',
+    
     # Add your apps here to enable them
     'django.contrib.admin',
     'django.contrib.auth',
