@@ -1,0 +1,754 @@
+openapi: 3.0.3
+info:
+  title: Your Project API
+  version: 1.0.0
+  description: Your project description
+paths:
+  /api/abtests/:
+    get:
+      operationId: api_abtests_list
+      description: ''
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ABTest'
+          description: ''
+    post:
+      operationId: api_abtests_create
+      description: ''
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ABTest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ABTest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ABTest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ABTest'
+          description: ''
+  /api/abtests/{id}/:
+    get:
+      operationId: api_abtests_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ab test.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ABTest'
+          description: ''
+    put:
+      operationId: api_abtests_update
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ab test.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ABTest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ABTest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ABTest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ABTest'
+          description: ''
+    patch:
+      operationId: api_abtests_partial_update
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ab test.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedABTest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedABTest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedABTest'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ABTest'
+          description: ''
+  /api/endpoints/:
+    get:
+      operationId: api_endpoints_list
+      description: ''
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Endpoint'
+          description: ''
+  /api/endpoints/{id}/:
+    get:
+      operationId: api_endpoints_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this endpoint.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endpoint'
+          description: ''
+  /api/mlalgorithms/:
+    get:
+      operationId: api_mlalgorithms_list
+      description: ''
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MLAlgorithm'
+          description: ''
+  /api/mlalgorithms/{id}/:
+    get:
+      operationId: api_mlalgorithms_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ml algorithm.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MLAlgorithm'
+          description: ''
+  /api/mlalgorithmstatuses/:
+    get:
+      operationId: api_mlalgorithmstatuses_list
+      description: ''
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MLAlgorithmStatus'
+          description: ''
+    post:
+      operationId: api_mlalgorithmstatuses_create
+      description: ''
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MLAlgorithmStatus'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MLAlgorithmStatus'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MLAlgorithmStatus'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MLAlgorithmStatus'
+          description: ''
+  /api/mlalgorithmstatuses/{id}/:
+    get:
+      operationId: api_mlalgorithmstatuses_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ml algorithm status.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MLAlgorithmStatus'
+          description: ''
+  /api/mlrequests/:
+    get:
+      operationId: api_mlrequests_list
+      description: ''
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MLRequest'
+          description: ''
+  /api/mlrequests/{id}/:
+    get:
+      operationId: api_mlrequests_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ml request.
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MLRequest'
+          description: ''
+    put:
+      operationId: api_mlrequests_update
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ml request.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MLRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MLRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MLRequest'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MLRequest'
+          description: ''
+    patch:
+      operationId: api_mlrequests_partial_update
+      description: ''
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this ml request.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMLRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMLRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMLRequest'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MLRequest'
+          description: ''
+  /api/v1/{endpoint_name}/predict:
+    post:
+      operationId: api_v1_predict_create
+      description: ''
+      parameters:
+      - in: path
+        name: endpoint_name
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GermanDataModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GermanDataModel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GermanDataModel'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GermanDataModel'
+          description: ''
+  /api/v1/stop_ab_test/{ab_test_id}:
+    post:
+      operationId: api_v1_stop_ab_test_create
+      description: ''
+      parameters:
+      - in: path
+        name: ab_test_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ABTest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ABTest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ABTest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ABTest'
+          description: ''
+components:
+  schemas:
+    ABTest:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 10000
+        created_by:
+          type: string
+          maxLength: 128
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        ended_at:
+          type: string
+          format: date-time
+          readOnly: true
+        summary:
+          type: string
+          readOnly: true
+        parent_mlalgorithm_1:
+          type: integer
+        parent_mlalgorithm_2:
+          type: integer
+      required:
+      - created_at
+      - created_by
+      - ended_at
+      - id
+      - parent_mlalgorithm_1
+      - parent_mlalgorithm_2
+      - summary
+      - title
+    BlankEnum:
+      enum:
+      - ''
+    Endpoint:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        classifier:
+          type: string
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - classifier
+      - created_at
+      - created_by
+      - id
+      - name
+    GermanDataModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        age:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        sex:
+          oneOf:
+          - $ref: '#/components/schemas/SexEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        job:
+          type: string
+          maxLength: 100
+        housing:
+          type: string
+          maxLength: 50
+        credit_amount:
+          type: number
+          format: float
+        duration:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        purpose:
+          type: string
+          maxLength: 50
+      required:
+      - age
+      - credit_amount
+      - duration
+      - housing
+      - id
+      - job
+    MLAlgorithm:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        code:
+          type: string
+          readOnly: true
+        version:
+          type: string
+          readOnly: true
+        created_by:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        parent_endpoint:
+          type: integer
+          readOnly: true
+        current_status:
+          type: string
+          readOnly: true
+      required:
+      - code
+      - created_at
+      - created_by
+      - current_status
+      - description
+      - id
+      - name
+      - parent_endpoint
+      - version
+    MLAlgorithmStatus:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        active:
+          type: boolean
+          readOnly: true
+        status:
+          type: string
+          maxLength: 128
+        created_by:
+          type: string
+          maxLength: 128
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        parent_mlalgorithm:
+          type: integer
+      required:
+      - active
+      - created_at
+      - created_by
+      - id
+      - parent_mlalgorithm
+      - status
+    MLRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        input_data:
+          type: string
+          readOnly: true
+        full_response:
+          type: string
+          readOnly: true
+        response:
+          type: string
+          readOnly: true
+        feedback:
+          type: string
+          nullable: true
+          maxLength: 10000
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        parent_mlalgorithm:
+          type: integer
+          readOnly: true
+      required:
+      - created_at
+      - full_response
+      - id
+      - input_data
+      - parent_mlalgorithm
+      - response
+    PatchedABTest:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 10000
+        created_by:
+          type: string
+          maxLength: 128
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        ended_at:
+          type: string
+          format: date-time
+          readOnly: true
+        summary:
+          type: string
+          readOnly: true
+        parent_mlalgorithm_1:
+          type: integer
+        parent_mlalgorithm_2:
+          type: integer
+    PatchedMLRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        input_data:
+          type: string
+          readOnly: true
+        full_response:
+          type: string
+          readOnly: true
+        response:
+          type: string
+          readOnly: true
+        feedback:
+          type: string
+          nullable: true
+          maxLength: 10000
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        parent_mlalgorithm:
+          type: integer
+          readOnly: true
+    SexEnum:
+      enum:
+      - 1
+      type: integer
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: Session

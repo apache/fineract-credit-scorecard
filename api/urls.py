@@ -19,14 +19,9 @@
 Definition of urls for scorecardapp.
 """
 
-from datetime import datetime
 from django.urls import path, include
-from django.contrib import admin
-from rest_framework.schemas import get_schema_view
-from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic.base import TemplateView
 from rest_framework import routers
-from app import forms, views
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from api import views as apiViews
 
 
@@ -37,18 +32,11 @@ router.register(r'scorecard', apiViews.ScorecardViewSet, basename='scorecard')
 
 
 urlpatterns = [
-    path('openapi', get_schema_view(
-        title="Your Project",
-        description="API for all things …",
-        version="1.0.0"
-    ), name='openapi-schema'),
-
-    # Route TemplateView to serve Swagger UI template.
-    #   * Provide `extra_context` with view name of `SchemaView`.
-    path('swagger-ui/', TemplateView.as_view(
-        template_name='swagger-ui.html',
-        extra_context={'schema_url':'openapi-schema'}
-    ), name='swagger-ui'),
+    # API docs
+    path('api/docs/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('api/docs/swagger-ui', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/docs/redoc', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
     # API Views
     # Wire up our API using automatic URL routing.
