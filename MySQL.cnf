@@ -1,6 +1,6 @@
 # MySQL.cnf
 [client]
-database = scorecard_server
+database = ml_scorecard
 user = root
 password = mysql
 default-character-set = utf8
