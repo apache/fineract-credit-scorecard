@@ -20,21 +20,12 @@ Definition of urls for scorecardapp.
 """
 
 from datetime import datetime
-from django.urls import path, include
+from django.urls import path
 from django.contrib import admin
-from rest_framework.schemas import get_schema_view
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic.base import TemplateView
-from rest_framework import routers
 from app import forms, views
-from api import views as apiViews
 
-
-router = routers.DefaultRouter()
-router.register(r'users', apiViews.UserViewSet)
-router.register(r'groups', apiViews.GroupViewSet)
-router.register(r'scorecard', apiViews.ScorecardViewSet, basename='scorecard')
-
+from api.urls import urlpatterns as api_urlpatterns
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -54,23 +45,6 @@ urlpatterns = [
          name='login'),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('admin/', admin.site.urls),
-
-    path('openapi', get_schema_view(
-        title="Your Project",
-        description="API for all things …",
-        version="1.0.0"
-    ), name='openapi-schema'),
-
-    # Route TemplateView to serve Swagger UI template.
-    #   * Provide `extra_context` with view name of `SchemaView`.
-    path('swagger-ui/', TemplateView.as_view(
-        template_name='swagger-ui.html',
-        extra_context={'schema_url':'openapi-schema'}
-    ), name='swagger-ui'),
-
-    # API Views
-    # Wire up our API using automatic URL routing.
-    # Additionally, we include login URLs for the browsable API.
-    path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
+
+urlpatterns += api_urlpatterns
