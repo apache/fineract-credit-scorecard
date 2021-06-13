@@ -20,40 +20,32 @@ ML registry
 Registry object that will keep information about available algorithms and corresponding endpoints.
 """
 
-from api.models import Endpoint
-from api.models import MLAlgorithm
-from api.models import MLAlgorithmStatus
+from api.models import Algorithm
 
 class MLRegistry:
     def __init__(self):
-        self.endpoints = {}
+        self.algorithms = {}
 
-    def add_algorithm(self, attrs=[{"endpoint_name": None, "endpoint_classifier": None,
-                                    "algorithm_object": None, "algorithm_name": None,
+    def add_algorithm(self, attrs=[{"algorithm_object": None, "algorithm_name": None,
                                     "algorithm_status": None, "algorithm_version": None, 
                                     "algorithm_description": None, "algorithm_code": None,
                                     "created_by": None}]):
         
         for attr in attrs:
             
-            # get endpoint
-            endpoint, _ = Endpoint.objects.get_or_create(name=attr['endpoint_name'],
-                                                         classifier=attr['endpoint_classifier'],                                                         
-                                                         created_by=attr['created_by'])
-
             # get algorithm
-            ml_algorithm, created = MLAlgorithm.objects.get_or_create(name=attr['algorithm_name'],
-                                                                      description=attr['algorithm_description'],
-                                                                      code=attr['algorithm_code'],
-                                                                      version=attr['algorithm_version'],
-                                                                      created_by=attr['created_by'],
-                                                                      parent_endpoint=endpoint)
-            if created:
-                status = MLAlgorithmStatus(status=attr['algorithm_status'],
-                                        created_by=attr['created_by'],
-                                        parent_mlalgorithm=ml_algorithm,
-                                        active=True)
-                status.save()
+            algorithm, _ = Algorithm.objects.get_or_create(name=attr['algorithm_name'],
+                                                           description=attr['algorithm_description'],
+                                                           code=attr['algorithm_code'],
+                                                           version=attr['algorithm_version'],
+                                                           status=attr['algorithm_status'],
+                                                           created_by=attr['created_by'])
+            # if created:
+            #     status = MLAlgorithmStatus(status=attr['algorithm_status'],
+            #                             created_by=attr['created_by'],
+            #                             parent_mlalgorithm=ml_algorithm,
+            #                             active=True)
+            #     status.save()
 
             # add to registry
-            self.endpoints[ml_algorithm.id] = attr['algorithm_object']
+            self.algorithms[algorithm.id] = attr['algorithm_object']

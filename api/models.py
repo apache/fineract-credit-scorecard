@@ -20,45 +20,8 @@ API Models module
 
 from django.db import models
 
-# Create your models here.
 
-GenderTypes = models.Choices('male', 'female')
-RiskTypes = models.Choices('good', 'bad')
-
-class GermanDataModel(models.Model):
-
-    created = models.DateTimeField(auto_now_add=True)
-    age = models.IntegerField(blank=False)
-    sex = models.CharField(blank=True, choices=GenderTypes.choices, max_length=10)
-    job = models.CharField(max_length=100)
-    housing = models.CharField(max_length=50)
-    credit_amount = models.FloatField(blank=False, max_length=50)
-    duration = models.IntegerField(blank=False)
-    purpose = models.CharField(blank=True, max_length=50)
-    risk = models.CharField(blank=True, choices=RiskTypes.choices, max_length=10)
-    
-    class Meta:
-        ordering = ['created']
-
-class Endpoint(models.Model):
-    '''
-    The Endpoint object represents ML API endpoint.
-
-    Attributes
-    ----------
-        name: The name of the endpoint, it will be used in API URL,
-        created_by: The string with owner name,
-        created_at: The date when endpoint was created.
-    '''
-    name = models.CharField(max_length=128)
-    classifier = models.CharField(max_length=128)
-    created_by = models.CharField(max_length=128)
-    created_at = models.DateTimeField(auto_now_add=True, blank=True)
-
-    class Meta:
-        ordering = ['created_at']
-        
-class MLAlgorithm(models.Model):
+class Algorithm(models.Model):
     '''
     The MLAlgorithm represent the ML algorithm object.
 
@@ -68,63 +31,65 @@ class MLAlgorithm(models.Model):
         description: The short description of how the algorithm works.
         code: The code of the algorithm.
         version: The version of the algorithm similar to software versioning.
+        status: The status of algorithm in the endpoint. Can be: testing, staging, production, ab_testing.
         created_by: The name of the owner.
         created_at: The date when MLAlgorithm was added.
-        parent_endpoint: The reference to the Endpoint.
     '''
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=1000)
     code = models.CharField(max_length=50000)
     version = models.CharField(max_length=128)
-    created_by = models.CharField(max_length=128)
-    created_at = models.DateTimeField(auto_now_add=True, blank=True)
-    parent_endpoint = models.ForeignKey(Endpoint, on_delete=models.CASCADE)
-
-    class Meta:
-        ordering = ['created_at']
-        
-class MLAlgorithmStatus(models.Model):
-    '''
-    The MLAlgorithmStatus represent status of the MLAlgorithm which can change during the time.
-
-    Attributes
-    ----------
-        status: The status of algorithm in the endpoint. Can be: testing, staging, production, ab_testing.
-        created_by: The name of creator.
-        created_at: The date of status creation.
-        parent_mlalgorithm: The reference to corresponding MLAlgorithm.
-        parent_endpoint: The reference to corresonding Endpoint.
-    '''
     status = models.CharField(max_length=128)
-    active = models.BooleanField()
     created_by = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
-    parent_mlalgorithm = models.ForeignKey(MLAlgorithm, on_delete=models.CASCADE, related_name = "status")
-    
+
+    def __str__(self):
+        return f"""
+                ML Algorithm
+                Name: {self.name}
+                Description: {self.description}
+                Version: {self.version}
+                Status: {self.status}
+                Created By: {self.created_by}
+                Created At: {self.created_at}
+                """
+                
     class Meta:
         ordering = ['created_at']
 
-class MLRequest(models.Model):
+class Request(models.Model):
     '''
     The MLRequest will keep information about all requests to ML algorithms.
 
     Attributes
     ----------
         input_data: The input data to ML algorithm in JSON format.
+        full_response: The full response of the ML algorithm in JSON format.
         response: The response of the ML algorithm in JSON format.
         feedback: The feedback about the response in JSON format.
         created_by: The name of creator.
         created_at: The date when request was created.
-        parent_mlalgorithm: The reference to MLAlgorithm used to compute response.
+        algorithm: The reference to MLAlgorithm used to compute response.
     '''
     input_data = models.CharField(max_length=10000)
     full_response = models.CharField(max_length=10000)
     response = models.CharField(max_length=10000)
     feedback = models.CharField(max_length=10000, blank=True, null=True)
+    algorithm = models.ForeignKey(Algorithm, on_delete=models.CASCADE)
     created_by = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
-    parent_mlalgorithm = models.ForeignKey(MLAlgorithm, on_delete=models.CASCADE)
     
+    def __str__(self):
+        return f"""
+                ML Request
+                Input Data: {self.input_data}
+                Response: {self.response}
+                Feedback: {self.feedback}
+                Algorithm: {self.algorithm}
+                Created By: {self.created_by}
+                Created At: {self.created_at}
+                """
+                
     class Meta:
         ordering = ['created_at']
 
@@ -139,17 +104,17 @@ class ABTest(models.Model):
         created_at: The date of test creation.
         ended_at: The date of test stop.
         summary: The description with test summary, created at test stop.
-        parent_mlalgorithm_1: The reference to the first corresponding MLAlgorithm.
-        parent_mlalgorithm_2: The reference to the second corresponding MLAlgorithm.
+        algorithm_1: The reference to the first corresponding ML Algorithm.
+        algorithm_2: The reference to the second corresponding ML Algorithm.
     '''
     title = models.CharField(max_length=10000)
+    summary = models.CharField(max_length=10000, blank=True, null=True)
+    ended_at = models.DateTimeField(blank=True, null=True)
+
+    algorithm_1 = models.ForeignKey(Algorithm, on_delete=models.CASCADE, related_name="algorithm_1")
+    algorithm_2 = models.ForeignKey(Algorithm, on_delete=models.CASCADE, related_name="algorithm_2")
+    
     created_by = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
-    ended_at = models.DateTimeField(blank=True, null=True)
-    summary = models.CharField(max_length=10000, blank=True, null=True)
-
-    parent_mlalgorithm_1 = models.ForeignKey(MLAlgorithm, on_delete=models.CASCADE, related_name="parent_mlalgorithm_1")
-    parent_mlalgorithm_2 = models.ForeignKey(MLAlgorithm, on_delete=models.CASCADE, related_name="parent_mlalgorithm_2")
-    
     class Meta:
         ordering = ['created_at']

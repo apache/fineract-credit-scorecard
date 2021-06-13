@@ -18,70 +18,31 @@
 Serializer module
 """
 
-from api.models import ABTest, Endpoint, GenderTypes, GermanDataModel, MLAlgorithm, MLAlgorithmStatus, MLRequest, RiskTypes
-from django.contrib.auth.models import User, Group
+from api.models import ABTest, Algorithm, Request
+# from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'groups']
-
-
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Group
-        fields = ['url', 'name']
-
-class GermanDataModelSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = GermanDataModel
-        fields = ['id', 'age', 'sex', 'job', 'housing',
-                  'credit_amount', 'duration', 'purpose']
-
-class EndpointSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Endpoint
-        read_only_fields = ["id", "name", "classifier", "created_by", "created_at"]
-        fields = read_only_fields
-
-
-class MLAlgorithmSerializer(serializers.ModelSerializer):
-
-    current_status = serializers.SerializerMethodField(read_only=True)
-
-    def get_current_status(self, mlalgorithm) -> str:
-        return MLAlgorithmStatus.objects.filter(parent_mlalgorithm=mlalgorithm).latest('created_at').status
+class AlgorithmSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = MLAlgorithm
-        read_only_fields = ["id", "name", "description", "code", "version", "created_by",
-                            "created_at", "parent_endpoint", "current_status"]
-
-        fields = read_only_fields
-        
-class MLAlgorithmStatusSerializer(serializers.ModelSerializer):
+        model = Algorithm
+        fields = ["id", "name", "description", "code", "version",
+                  "status", "created_by", "created_at"]
+  
+class RequestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MLAlgorithmStatus
-        read_only_fields = ["id", "active"]
-
-        fields = ["id", "active", "status", "created_by",
-                  "created_at", "parent_mlalgorithm"]
-
-class MLRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MLRequest
+        model = Request
         read_only_fields = ["id", "input_data", "full_response", "response",
-                            "created_by", "created_at", "parent_mlalgorithm"]
+                            "algorithm", "created_by", "created_at"]
         
         fields = ["id", "input_data", "full_response", "response",
-                  "feedback", "created_at", "parent_mlalgorithm"]
+                  "feedback", "algorithm", "created_at"]
 
 class ABTestSerializer(serializers.ModelSerializer):
     class Meta:
         model = ABTest
-        read_only_fields = ["id", "ended_at", "created_at", "summary"]
+        read_only_fields = ["id", "summary", "ended_at", "created_at"]
 
-        fields = ["id", "title", "created_by", "created_at", "ended_at", "summary",
-                  "parent_mlalgorithm_1", "parent_mlalgorithm_2"]
+        fields = ["id", "title", "summary", "ended_at", "algorithm_1",
+                  "algorithm_2", "created_at", "created_by"]

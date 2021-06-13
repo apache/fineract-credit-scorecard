@@ -31,12 +31,12 @@ test_data = {
 
 expected_output = 'bad'
 
-class EndpointTests(TestCase):
+class AlgorithmTests(TestCase):
 
     def test_predict_view(self):
         client = APIClient()
         
-        classifier_url = "/api/v1/credit_scoring/predict"
+        classifier_url = "/api/v1/algorithms/predict"
         response = client.post(classifier_url, test_data, format='json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["label"], expected_output)

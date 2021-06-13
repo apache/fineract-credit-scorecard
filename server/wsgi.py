@@ -54,8 +54,8 @@ application = get_wsgi_application()
 registry = MLRegistry()
 
 if ('runserver' in sys.argv or 'test' in sys.argv):
+    
     # create ML registry
-
     try:
         rf = RandomForestClassifier()
         svc = SVC()
@@ -64,48 +64,40 @@ if ('runserver' in sys.argv or 'test' in sys.argv):
         
         registry.add_algorithm([
             # Random Forest classifier
-            {'endpoint_name': "credit_scoring",
-            'endpoint_classifier': "random_forest",
-            'algorithm_object': rf,
-            'algorithm_name': "random_forest",
-            'algorithm_status': "production",
-            'algorithm_version': "0.0.1",
-            'created_by': "xurror",
-            'algorithm_description': "Random Forest with simple pre- and post-processing",
-            'algorithm_code': inspect.getsource(RandomForestClassifier)},
+            {'algorithm_object': rf,
+             'algorithm_name': "random_forest",
+             'algorithm_status': "production",
+             'algorithm_version': "0.0.1",
+             'created_by': "xurror",
+             'algorithm_description': "Random Forest with simple pre- and post-processing",
+             'algorithm_code': inspect.getsource(RandomForestClassifier)},
             
             # SVC classifier
-            {'endpoint_name': "credit_scoring",
-            'endpoint_classifier': "svc",
-            'algorithm_object': svc,
-            'algorithm_name': "svc",
-            'algorithm_status': "testing",
-            'algorithm_version': "0.0.1",
-            'created_by': "xurror",
-            'algorithm_description': "SVC Classifier with simple pre- and post-processing",
-            'algorithm_code': inspect.getsource(SVC)},
+            {'algorithm_object': svc,
+             'algorithm_name': "svc",
+             'algorithm_status': "testing",
+             'algorithm_version': "0.0.1",
+             'created_by': "xurror",
+             'algorithm_description': "SVC Classifier with simple pre- and post-processing",
+             'algorithm_code': inspect.getsource(SVC)},
             
             # MLP classifier
-            {'endpoint_name': "credit_scoring",
-            'endpoint_classifier': "mlp",
-            'algorithm_object': mlp,
-            'algorithm_name': "mlp",
-            'algorithm_status': "testing",
-            'algorithm_version': "0.0.1",
-            'created_by': "xurror",
-            'algorithm_description': "MLP Classifier with simple pre- and post-processing",
-            'algorithm_code': inspect.getsource(MLP)},
+            {'algorithm_object': mlp,
+             'algorithm_name': "mlp",
+             'algorithm_status': "testing",
+             'algorithm_version': "0.0.1",
+             'created_by': "xurror",
+             'algorithm_description': "MLP Classifier with simple pre- and post-processing",
+             'algorithm_code': inspect.getsource(MLP)},
             
             # Gradient Boost classifier
-            {'endpoint_name': "credit_scoring",
-            'endpoint_classifier': "gradient_boost",
-            'algorithm_object': gb,
-            'algorithm_name': "gradient_boost",
-            'algorithm_status': "testing",
-            'algorithm_version': "0.0.1",
-            'created_by': "xurror",
-            'algorithm_description': "Gradient Boost CLassifier with simple pre- and post-processing",
-            'algorithm_code': inspect.getsource(GradientBoostClassifier)}])
+            {'algorithm_object': gb,
+             'algorithm_name': "gradient_boost",
+             'algorithm_status': "testing",
+             'algorithm_version': "0.0.1",
+             'created_by': "xurror",
+             'algorithm_description': "Gradient Boost CLassifier with simple pre- and post-processing",
+             'algorithm_code': inspect.getsource(GradientBoostClassifier)}])
         
     except Exception as e:
         print("Exception while loading the algorithms to the registry,", str(e))

@@ -147,8 +147,15 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
+    'TITLE': 'Fineract CN Amun',
+    'DESCRIPTION': 'An API module for credit risk assessment',
     'VERSION': '1.0.0',
+    'LICENSE': {'name': 'Apache-2.0',
+                'url': 'https://www.apache.org/licenses/LICENSE-2.0.html'},
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SCHEMA_PATH_PREFIX': r'/api/v[0-9]',
+    'SERVERS': [{'url': 'http://127.0.0.1:8000',
+                 'description': 'server on localhost'}],
+    # 'TAGS': [{'name': 'amun', 'description': 'API'}]
     # OTHER SETTINGS
 }

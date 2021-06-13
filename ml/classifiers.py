@@ -95,18 +95,18 @@ class Classifier(object):
                 Data to perform prediction on.
         """
 
-        return self.model.predict(data)
+        return self.model.predict_proba(data)
     
     def postprocessing(self, prediction):
         label = "bad"
-        if prediction > 0.5:
+        if prediction[1] > 0.5:
             label = "good"
-        return {"probability": prediction, "label": label, "status": "OK"}
+        return {"probability": prediction[1], "label": label, "status": "OK"}
     
     def compute_prediction(self, data):
         try:
             input_data = self.preprocessing(data)
-            prediction = self.predict(input_data)
+            prediction = self.predict(input_data)[0]
             prediction = self.postprocessing(prediction)
         except Exception as e:
             return {"status": "Error", "message": str(e)}

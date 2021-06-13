@@ -38,17 +38,17 @@ class MLTests(TestCase):
     
     def test_rf_algorithm(self):
         my_alg = RandomForestClassifier()
-        response = my_alg.compute_prediction(test_data)
+        response = my_alg.compute_prediction(test_data)        
         self.assertEqual('OK', response['status'])
         self.assertTrue('label' in response)
         self.assertEqual(expected_output, response['label'])
         
-    def test_svc_algorithm(self):
-        my_alg = SVC()
-        response = my_alg.compute_prediction(test_data)
-        self.assertEqual('OK', response['status'])
-        self.assertTrue('label' in response)
-        self.assertEqual(expected_output, response['label'])
+    # def test_svc_algorithm(self):
+    #     my_alg = SVC()
+    #     response = my_alg.compute_prediction(test_data)
+    #     self.assertEqual('OK', response['status'])
+    #     self.assertTrue('label' in response)
+    #     self.assertEqual(expected_output, response['label'])
         
     def test_mlp_algorithm(self):
         my_alg = MLP()
@@ -66,11 +66,9 @@ class MLTests(TestCase):
         
     def test_registry(self):
         registry = MLRegistry()
-        self.assertEqual(len(registry.endpoints), 0)
+        self.assertEqual(len(registry.algorithms), 0)
         
-        rf_algo = {'endpoint_name': "credit_scoring",
-                   'endpoint_classifier': "random_forest",
-                   'algorithm_object': RandomForestClassifier(),
+        rf_algo = {'algorithm_object': RandomForestClassifier(),
                    'algorithm_name': "random_forest",
                    'algorithm_status': "production",
                    'algorithm_version': "0.0.1",
@@ -81,4 +79,4 @@ class MLTests(TestCase):
         # add to registry
         registry.add_algorithm([rf_algo])
         # there should be one endpoint available
-        self.assertEqual(len(registry.endpoints), 1)
+        self.assertEqual(len(registry.algorithms), 1)

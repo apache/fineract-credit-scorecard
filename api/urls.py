@@ -24,31 +24,27 @@ from django.urls import path, include
 from rest_framework import routers
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
-from api.views import (ABTestViewSet, EndpointViewSet,
-                       MLAlgorithmStatusViewSet, MLAlgorithmViewSet, 
-                       MLRequestViewSet, PredictView, StopABTestView)
+from api.views import ABTestViewSet, AlgorithmViewSet, RequestViewSet
 
 
 router = routers.DefaultRouter(trailing_slash=False)
-router.register(r"endpoints", EndpointViewSet, basename="endpoints")
-router.register(r"mlalgorithms", MLAlgorithmViewSet, basename="mlalgorithms")
-router.register(r"mlalgorithmstatuses", MLAlgorithmStatusViewSet, basename="mlalgorithmstatuses")
-router.register(r"mlrequests", MLRequestViewSet, basename="mlrequests")
+router.register(r"algorithms", AlgorithmViewSet, basename="mlalgorithms")
+router.register(r"requests", RequestViewSet, basename="mlrequests")
 router.register(r"abtests", ABTestViewSet, basename="abtests")
 
 
 urlpatterns = [
     # API docs
-    path('api/docs/', SpectacularAPIView.as_view(), name='schema'),
+    path('api-docs/', SpectacularAPIView.as_view(), name='api-docs'),
     # Optional UI:
-    path('api/docs/swagger-ui', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/docs/redoc', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('api-docs/swagger-ui', SpectacularSwaggerView.as_view(url_name='api-docs'), name='swagger-ui'),
+    path('api-docs/redoc', SpectacularRedocView.as_view(url_name='api-docs'), name='redoc'),
 
     # API Views
-    path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-    url(r"^api/v1/(?P<endpoint_name>.+)/predict$", PredictView.as_view(), name="predict"),
-    url(r"^api/v1/stop_ab_test/(?P<ab_test_id>.+)", StopABTestView.as_view(), name="stop_ab"),
+    path('api/v1/', include(router.urls)),
+    # url(r"^api/v1/(?P<endpoint_name>.+)/predict$", PredictView.as_view(), name="predict"),
+    # url(r"^api/v1/stop_ab_test/(?P<ab_test_id>.+)", StopABTestView.as_view(), name="stop_ab"),
 ]
  
