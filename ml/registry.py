@@ -20,32 +20,46 @@ ML registry
 Registry object that will keep information about available algorithms and corresponding endpoints.
 """
 
-from api.models import Algorithm
+from ml.classifiers import Classifier
+from typing import Dict
+from api.models import Algorithm, Dataset
+
+def has_empty_values(data: dict):
+    
+    for key, value in data.items():
+        if value == None:
+            raise ValueError(f'{key} cannot be null')
+        
+    return False
+        
 
 class MLRegistry:
     def __init__(self):
-        self.algorithms = {}
+        self.classifiers: Dict[int, Classifier] = {}
 
-    def add_algorithm(self, attrs=[{"algorithm_object": None, "algorithm_name": None,
-                                    "algorithm_status": None, "algorithm_version": None, 
-                                    "algorithm_description": None, "algorithm_code": None,
-                                    "created_by": None}]):
+    def add_algorithms(self,
+                       attrs=[{"classifier": None,
+                               "description": None,
+                               "status": None,
+                               "version": None,
+                               "dataset": None,
+                               "region": None,
+                               "created_by": None}]):
         
         for attr in attrs:
-            
-            # get algorithm
-            algorithm, _ = Algorithm.objects.get_or_create(name=attr['algorithm_name'],
-                                                           description=attr['algorithm_description'],
-                                                           code=attr['algorithm_code'],
-                                                           version=attr['algorithm_version'],
-                                                           status=attr['algorithm_status'],
-                                                           created_by=attr['created_by'])
-            # if created:
-            #     status = MLAlgorithmStatus(status=attr['algorithm_status'],
-            #                             created_by=attr['created_by'],
-            #                             parent_mlalgorithm=ml_algorithm,
-            #                             active=True)
-            #     status.save()
-
-            # add to registry
-            self.algorithms[algorithm.id] = attr['algorithm_object']
+        
+            if not has_empty_values(attr):    
+                #get dataset
+                dataset, _ = Dataset.objects.get_or_create(name=attr['dataset'],
+                                                           region=attr['region'])
+                
+                # get algorithm
+                algorithm, _ = Algorithm.objects.get_or_create(classifier=attr['classifier'].__class__.__name__,
+                                                               description=attr['description'],
+                                                               version=attr['version'],
+                                                               status=attr['status'],
+                                                               dataset=dataset,
+                                                               created_by=attr['created_by'])
+                self.classifiers[algorithm.id] = attr['classifier']
+        
+        return self.classifiers

@@ -35,7 +35,7 @@ https://docs.djangoproject.com/en/2.1/howto/deployment/wsgi/
 
 import os
 import sys
-import inspect
+import joblib
 
 from django.core.wsgi import get_wsgi_application
 
@@ -57,47 +57,52 @@ if ('runserver' in sys.argv or 'test' in sys.argv):
     
     # create ML registry
     try:
-        rf = RandomForestClassifier()
-        svc = SVC()
-        mlp = MLP()
-        gb = GradientBoostClassifier()
+        zone = "german"
         
-        registry.add_algorithm([
+        registry.add_algorithms([
             # Random Forest classifier
-            {'algorithm_object': rf,
-             'algorithm_name': "random_forest",
-             'algorithm_status': "production",
-             'algorithm_version': "0.0.1",
-             'created_by': "xurror",
-             'algorithm_description': "Random Forest with simple pre- and post-processing",
-             'algorithm_code': inspect.getsource(RandomForestClassifier)},
+            {'classifier': RandomForestClassifier(model=joblib.load(f'zoo/{zone}/rf_classifier.joblib'),
+                                                  categorical=joblib.load(f'zoo/{zone}/categorical.joblib'),
+                                                  label_encoders=joblib.load(f'zoo/{zone}/label_encoders.joblib')),
+             'description': "Random Forest with simple pre and post-processing",
+             'status': "production",
+             'version': "0.0.1",
+             'dataset': 'german',
+             'region': 'Germany',
+             'created_by': "xurror"},
             
             # SVC classifier
-            {'algorithm_object': svc,
-             'algorithm_name': "svc",
-             'algorithm_status': "testing",
-             'algorithm_version': "0.0.1",
-             'created_by': "xurror",
-             'algorithm_description': "SVC Classifier with simple pre- and post-processing",
-             'algorithm_code': inspect.getsource(SVC)},
+            {'classifier': SVC(model=joblib.load(f'zoo/{zone}/svc_classifier.joblib'),
+                               categorical=joblib.load(f'zoo/{zone}/categorical.joblib'),
+                               label_encoders=joblib.load(f'zoo/{zone}/label_encoders.joblib')),
+             'description': "SVC Classifier with simple pre- and post-processing",
+             'status': "testing",
+             'version': "0.0.1",
+             'dataset': 'german',
+             'region': 'Germany',
+             'created_by': "xurror"},
             
             # MLP classifier
-            {'algorithm_object': mlp,
-             'algorithm_name': "mlp",
-             'algorithm_status': "testing",
-             'algorithm_version': "0.0.1",
-             'created_by': "xurror",
-             'algorithm_description': "MLP Classifier with simple pre- and post-processing",
-             'algorithm_code': inspect.getsource(MLP)},
+            {'classifier': MLP(model=joblib.load(f'zoo/{zone}/mlp_classifier.joblib'),
+                               categorical=joblib.load(f'zoo/{zone}/categorical.joblib'),
+                               label_encoders=joblib.load(f'zoo/{zone}/label_encoders.joblib')),
+             'description': "MLP Classifier with simple pre- and post-processing",
+             'status': "testing",
+             'version': "0.0.1",
+             'dataset': 'german',
+             'region': 'Germany',
+             'created_by': "xurror"},
             
             # Gradient Boost classifier
-            {'algorithm_object': gb,
-             'algorithm_name': "gradient_boost",
-             'algorithm_status': "testing",
-             'algorithm_version': "0.0.1",
-             'created_by': "xurror",
-             'algorithm_description': "Gradient Boost CLassifier with simple pre- and post-processing",
-             'algorithm_code': inspect.getsource(GradientBoostClassifier)}])
+            {'classifier': GradientBoostClassifier(model=joblib.load(f'zoo/{zone}/gb_classifier.joblib'),
+                                                   categorical=joblib.load(f'zoo/{zone}/categorical.joblib'),
+                                                   label_encoders=joblib.load(f'zoo/{zone}/label_encoders.joblib')),
+             'description': "Gradient Boost CLassifier with simple pre- and post-processing",
+             'status': "testing",
+             'version': "0.0.1",
+             'dataset': 'german',
+             'region': 'Germany',
+             'created_by': "xurror"}])
         
     except Exception as e:
         print("Exception while loading the algorithms to the registry,", str(e))

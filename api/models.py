@@ -18,16 +18,21 @@
 API Models module
 """
 
+from datetime import date
 from django.db import models
 
 
+class Dataset(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+    region = models.CharField(max_length=128, unique=True)
+    
 class Algorithm(models.Model):
     '''
     The MLAlgorithm represent the ML algorithm object.
 
     Attributes
     ----------
-        name: The name of the algorithm.
+        classifier: The name of the algorithm.
         description: The short description of how the algorithm works.
         code: The code of the algorithm.
         version: The version of the algorithm similar to software versioning.
@@ -35,18 +40,19 @@ class Algorithm(models.Model):
         created_by: The name of the owner.
         created_at: The date when MLAlgorithm was added.
     '''
-    name = models.CharField(max_length=128)
-    description = models.CharField(max_length=1000)
-    code = models.CharField(max_length=50000)
-    version = models.CharField(max_length=128)
-    status = models.CharField(max_length=128)
-    created_by = models.CharField(max_length=128)
-    created_at = models.DateTimeField(auto_now_add=True, blank=True)
+    classifier: str = models.CharField(max_length=128)
+    description: str = models.TextField(blank=True, null=True)
+    version: str = models.CharField(max_length=128)
+    status: str = models.CharField(max_length=128)
+    dataset: Dataset = models.ForeignKey(Dataset, to_field="name",
+                                         null=True, on_delete=models.SET_NULL)
+    created_at: date = models.DateTimeField(auto_now_add=True, blank=True)
+    created_by: str = models.CharField(max_length=128)
 
     def __str__(self):
         return f"""
                 ML Algorithm
-                Name: {self.name}
+                Classifier: {self.classifier}
                 Description: {self.description}
                 Version: {self.version}
                 Status: {self.status}
@@ -57,28 +63,29 @@ class Algorithm(models.Model):
     class Meta:
         ordering = ['created_at']
 
-class Request(models.Model):
+class PredictionRequest(models.Model):
     '''
     The MLRequest will keep information about all requests to ML algorithms.
 
     Attributes
     ----------
-        input_data: The input data to ML algorithm in JSON format.
-        full_response: The full response of the ML algorithm in JSON format.
-        response: The response of the ML algorithm in JSON format.
+        input: The input data to ML algorithm in JSON format.
+        response: The full response of the ML algorithm in JSON format.
+        prediction: The the prediction from ML request.
         feedback: The feedback about the response in JSON format.
         created_by: The name of creator.
         created_at: The date when request was created.
         algorithm: The reference to MLAlgorithm used to compute response.
     '''
-    input_data = models.CharField(max_length=10000)
-    full_response = models.CharField(max_length=10000)
-    response = models.CharField(max_length=10000)
-    feedback = models.CharField(max_length=10000, blank=True, null=True)
-    algorithm = models.ForeignKey(Algorithm, on_delete=models.CASCADE)
+    input = models.JSONField()
+    response = models.JSONField()
+    prediction = models.CharField(max_length=128)
+    feedback = models.CharField(max_length=128, blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
+    algorithm: Algorithm = models.ForeignKey(Algorithm, on_delete=models.CASCADE)
+    created_at: date = models.DateTimeField(auto_now_add=True, blank=True)
     created_by = models.CharField(max_length=128)
-    created_at = models.DateTimeField(auto_now_add=True, blank=True)
-    
+
     def __str__(self):
         return f"""
                 ML Request
@@ -90,31 +97,5 @@ class Request(models.Model):
                 Created At: {self.created_at}
                 """
                 
-    class Meta:
-        ordering = ['created_at']
-
-class ABTest(models.Model):
-    '''
-    The ABTest will keep information about A/B tests.
-
-    Attributes
-    ----------
-        title: The title of test.
-        created_by: The name of creator.
-        created_at: The date of test creation.
-        ended_at: The date of test stop.
-        summary: The description with test summary, created at test stop.
-        algorithm_1: The reference to the first corresponding ML Algorithm.
-        algorithm_2: The reference to the second corresponding ML Algorithm.
-    '''
-    title = models.CharField(max_length=10000)
-    summary = models.CharField(max_length=10000, blank=True, null=True)
-    ended_at = models.DateTimeField(blank=True, null=True)
-
-    algorithm_1 = models.ForeignKey(Algorithm, on_delete=models.CASCADE, related_name="algorithm_1")
-    algorithm_2 = models.ForeignKey(Algorithm, on_delete=models.CASCADE, related_name="algorithm_2")
-    
-    created_by = models.CharField(max_length=128)
-    created_at = models.DateTimeField(auto_now_add=True, blank=True)
     class Meta:
         ordering = ['created_at']

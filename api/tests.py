@@ -20,13 +20,13 @@ from rest_framework.test import APIClient
 
 
 test_data = {
-    "Age": 22,
-    "Sex": "female",
-    "Job": 2,
-    "Housing": "own",
-    "Credit amount": 5951,
-    "Duration": 48,
-    "Purpose": "radio/TV"
+    "age": 22,
+    "sex": "female",
+    "job": 2,
+    "housing": "own",
+    "credit_amount": 5951,
+    "duration": 48,
+    "purpose": "radio/TV"
 }
 
 expected_output = 'bad'
@@ -36,7 +36,7 @@ class AlgorithmTests(TestCase):
     def test_predict_view(self):
         client = APIClient()
         
-        classifier_url = "/api/v1/algorithms/predict"
+        classifier_url = "/api/v1/algorithms/predict?classifier=RandomForestClassifier&version=0.0.1"
         response = client.post(classifier_url, test_data, format='json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["label"], expected_output)

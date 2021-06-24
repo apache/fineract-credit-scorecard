@@ -1,6 +1,6 @@
 # MySQL.cnf
 [client]
-database = ml_scorecard
+database = fineract_scorecard
 user = root
 password = mysql
 default-character-set = utf8

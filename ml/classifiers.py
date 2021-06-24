@@ -21,16 +21,13 @@ The module contains model definitions of various tested models for credit
 assessment
 """
 
+from typing import Any, Dict
 import joblib
-import numpy as np
+import logging
 import pandas as pd
+from django.core.exceptions import BadRequest
 
-# from sklearn.preprocessing import LabelEncoder
-# from sklearn.preprocessing import StandardScaler
-# from sklearn.ensemble import RandomForestClassifier
-# from sklearn.model_selection import train_test_split
-# from sklearn.model_selection import GridSearchCV, ShuffleSplit
-# from sklearn.metrics import confusion_matrix, accuracy_score, f1_score, recall_score, precision_score
+log = logging.getLogger(__name__)
 
 class Classifier(object):
     """
@@ -60,7 +57,7 @@ class Classifier(object):
     #     {self.model}
     #     """
 
-    def preprocessing(self, data):
+    def preprocessing(self, data: Dict[str, Any]):
         """
         Preprocess python dict object for prediction
 
@@ -70,19 +67,34 @@ class Classifier(object):
             dictionary of data to predict
         """
 
+        categorical = [x for x in self.categorical if x != 'risk']
+        
+        # log.info(f"Categorical: {categorical}")
+        
+        # for category in categorical:
+        #     if category not in list(data.keys()):
+        #         data[category] = None
+
         data = pd.DataFrame(data, index=[0])
 
         # fill missing values
         # data.fillna(self.values_fill_missing)
-
-        categorical = self.categorical[:-1]
 
         le = self.label_encoders
         data = data.dropna()
 
         # convert categoricals
         for category in categorical:
-            data[category] = le[category].transform(data[category])
+            failed_trials = []
+            try:
+                data[category] = le[category].transform(data[category])
+            except KeyError as e:
+                failed_trials.append(e)
+                log.debug(f"An error occured: {str(e)}")
+                if len(failed_trials) >= 3:
+                    raise BadRequest(failed_trials)
+                else:
+                    data[e] = None
 
         return data
 
@@ -94,53 +106,55 @@ class Classifier(object):
             data: array
                 Data to perform prediction on.
         """
-
+        log.info("------------Predict Probability------------")
         return self.model.predict_proba(data)
     
     def postprocessing(self, prediction):
         label = "bad"
         if prediction[1] > 0.5:
             label = "good"
-        return {"probability": prediction[1], "label": label, "status": "OK"}
+        return {"probability": prediction[1], "label": label}
     
-    def compute_prediction(self, data):
+    def compute_prediction(self, data: Dict[str, Any]):
+        log.info("------------Compute Prediction------------")
         try:
             input_data = self.preprocessing(data)
             prediction = self.predict(input_data)[0]
             prediction = self.postprocessing(prediction)
         except Exception as e:
-            return {"status": "Error", "message": str(e)}
+            log.debug(f'An error occured: {str(e)}')
+            raise BadRequest(str(e))
 
         return prediction
 
 class RandomForestClassifier(Classifier):
     
     def __init__(self,
-                 model=joblib.load('zoo/rf_classifier.joblib'),
-                 categorical=joblib.load('zoo/categorical.joblib'),
-                 label_encoders=joblib.load('zoo/label_encoders.joblib')):
+                 model=joblib.load('zoo/german/rf_classifier.joblib'),
+                 categorical=joblib.load('zoo/german/categorical.joblib'),
+                 label_encoders=joblib.load('zoo/german/label_encoders.joblib')):
         super(RandomForestClassifier, self).__init__(model, categorical, label_encoders)
 
 class SVC(Classifier):
     
     def __init__(self,
-                 model=joblib.load('zoo/svc_classifier.joblib'),
-                 categorical=joblib.load('zoo/categorical.joblib'),
-                 label_encoders=joblib.load('zoo/label_encoders.joblib')):
+                 model=joblib.load('zoo/german/svc_classifier.joblib'),
+                 categorical=joblib.load('zoo/german/categorical.joblib'),
+                 label_encoders=joblib.load('zoo/german/label_encoders.joblib')):
         super(SVC, self).__init__(model, categorical, label_encoders)
 
 class MLP(Classifier):
     
     def __init__(self,
-                 model=joblib.load('zoo/mlp_classifier.joblib'),
-                 categorical=joblib.load('zoo/categorical.joblib'),
-                 label_encoders=joblib.load('zoo/label_encoders.joblib')):
+                 model=joblib.load('zoo/german/mlp_classifier.joblib'),
+                 categorical=joblib.load('zoo/german/categorical.joblib'),
+                 label_encoders=joblib.load('zoo/german/label_encoders.joblib')):
         super(MLP, self).__init__(model, categorical, label_encoders)
 
 class GradientBoostClassifier(Classifier):
     
     def __init__(self,
-                 model=joblib.load('zoo/gb_classifier.joblib'),
-                 categorical=joblib.load('zoo/categorical.joblib'),
-                 label_encoders=joblib.load('zoo/label_encoders.joblib')):
+                 model=joblib.load('zoo/german/gb_classifier.joblib'),
+                 categorical=joblib.load('zoo/german/categorical.joblib'),
+                 label_encoders=joblib.load('zoo/german/label_encoders.joblib')):
         super(GradientBoostClassifier, self).__init__(model, categorical, label_encoders)

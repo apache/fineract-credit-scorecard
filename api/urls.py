@@ -24,14 +24,13 @@ from django.urls import path, include
 from rest_framework import routers
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
-from api.views import ABTestViewSet, AlgorithmViewSet, RequestViewSet
+from api.views import AlgorithmViewSet, DatasetViewSet, PredictionRequestViewSet
 
 
 router = routers.DefaultRouter(trailing_slash=False)
-router.register(r"algorithms", AlgorithmViewSet, basename="mlalgorithms")
-router.register(r"requests", RequestViewSet, basename="mlrequests")
-router.register(r"abtests", ABTestViewSet, basename="abtests")
-
+router.register(r"algorithms", AlgorithmViewSet, basename="algorithms")
+router.register(r"datasets", DatasetViewSet, basename="datasets")
+router.register(r"requests", PredictionRequestViewSet, basename="prediction_requests")
 
 urlpatterns = [
     # API docs
@@ -44,7 +43,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     path('api/v1/', include(router.urls)),
-    # url(r"^api/v1/(?P<endpoint_name>.+)/predict$", PredictView.as_view(), name="predict"),
-    # url(r"^api/v1/stop_ab_test/(?P<ab_test_id>.+)", StopABTestView.as_view(), name="stop_ab"),
 ]
  

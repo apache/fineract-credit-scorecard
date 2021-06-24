@@ -18,31 +18,22 @@
 Serializer module
 """
 
-from api.models import ABTest, Algorithm, Request
-# from django.contrib.auth.models import User, Group
+from api.models import Algorithm, PredictionRequest, Dataset
 from rest_framework import serializers
 
+
+class DatasetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dataset
+        fields = '__all__'
 
 class AlgorithmSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Algorithm
-        fields = ["id", "name", "description", "code", "version",
-                  "status", "created_by", "created_at"]
+        fields = '__all__'
   
-class RequestSerializer(serializers.ModelSerializer):
+class PredictionRequestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Request
-        read_only_fields = ["id", "input_data", "full_response", "response",
-                            "algorithm", "created_by", "created_at"]
-        
-        fields = ["id", "input_data", "full_response", "response",
-                  "feedback", "algorithm", "created_at"]
-
-class ABTestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ABTest
-        read_only_fields = ["id", "summary", "ended_at", "created_at"]
-
-        fields = ["id", "title", "summary", "ended_at", "algorithm_1",
-                  "algorithm_2", "created_at", "created_by"]
+        model = PredictionRequest
+        fields = '__all__'
