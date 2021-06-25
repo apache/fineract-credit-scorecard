@@ -27,6 +27,9 @@ from rest_framework.exceptions import APIException, bad_request
 from rest_framework.fields import CharField, FloatField, IntegerField
 from rest_framework.response import Response
 
+# from rest_framework import permissions
+# from rest_framework_api_key.permissions import HasAPIKey
+
 from api.models import Algorithm, Dataset, PredictionRequest
 from api.serializers import AlgorithmSerializer, PredictionRequestSerializer, DatasetSerializer
 
@@ -39,6 +42,7 @@ from server.wsgi import registry
 log = logging.getLogger(__name__)
 
 class AlgorithmViewSet(viewsets.ModelViewSet):
+    # permission_classes = []
     serializer_class = AlgorithmSerializer
     queryset = Algorithm.objects.all()
 
@@ -99,10 +103,10 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
 
             label = prediction["label"]
             prediction_request = PredictionRequest(input=json.dumps(request.data),
-                                 response=prediction,
-                                 prediction=label,
-                                 feedback="",
-                                 algorithm=algorithm)
+                                                   response=prediction,
+                                                   prediction=label,
+                                                   feedback="",
+                                                   algorithm=algorithm)
             prediction_request.save()
 
             prediction["request_id"] = prediction_request.id
@@ -112,9 +116,11 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
             raise APIException(str(e))
 
 class PredictionRequestViewSet(viewsets.ModelViewSet):
+    # permission_classes = []
     serializer_class = PredictionRequestSerializer
     queryset = PredictionRequest.objects.all()
 
 class DatasetViewSet(viewsets.ReadOnlyModelViewSet):
+    # permission_classes = []
     serializer_class = DatasetSerializer
     queryset = Dataset.objects.all()

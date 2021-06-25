@@ -21,11 +21,12 @@ The module contains model definitions of various tested models for credit
 assessment
 """
 
-from typing import Any, Dict
+from typing import Any, Dict, List
 import joblib
 import logging
 import pandas as pd
 from django.core.exceptions import BadRequest
+from sklearn.preprocessing import LabelEncoder
 
 log = logging.getLogger(__name__)
 
@@ -37,7 +38,7 @@ class Classifier(object):
     instead.
     """
     
-    def __init__(self, model=None, categorical=[], label_encoders={}):
+    def __init__(self, model=None, categorical=[], label_encoders: List[LabelEncoder]={}):
                  
         self.model = model
         self.categorical = categorical
@@ -74,6 +75,12 @@ class Classifier(object):
         # for category in categorical:
         #     if category not in list(data.keys()):
         #         data[category] = None
+        
+        for key, value in data.items():
+            if type(value) == str:
+                data[key] = value.lower()
+                
+        print(data)
 
         data = pd.DataFrame(data, index=[0])
 

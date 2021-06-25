@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    "rest_framework_api_key",
     'drf_spectacular',
     'corsheaders',
 ]
@@ -144,7 +145,10 @@ STATIC_URL = '/static/'
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
 
 REST_FRAMEWORK = {
-    # YOUR SETTINGS
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
@@ -159,6 +163,7 @@ SPECTACULAR_SETTINGS = {
     'SERVERS': [{'url': 'http://127.0.0.1:8000',
                  'description': 'server on localhost'}],
     # 'TAGS': [{'name': 'amun', 'description': 'API'}]
+    # 'SERVE_PERMISSIONS': ['rest_framework.permissions.AllowAny'],
     # OTHER SETTINGS
 }
 

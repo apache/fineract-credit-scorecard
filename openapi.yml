@@ -14,8 +14,6 @@ paths:
       tags:
       - algorithms
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -44,8 +42,6 @@ paths:
               $ref: '#/components/schemas/Algorithm'
         required: true
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '201':
@@ -68,8 +64,6 @@ paths:
       tags:
       - algorithms
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -103,8 +97,6 @@ paths:
               $ref: '#/components/schemas/Algorithm'
         required: true
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -137,8 +129,6 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedAlgorithm'
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -160,8 +150,6 @@ paths:
       tags:
       - algorithms
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '204':
@@ -230,8 +218,6 @@ paths:
               additionalProperties: {}
               description: Unspecified request body
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -247,8 +233,6 @@ paths:
       tags:
       - datasets
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -273,8 +257,6 @@ paths:
       tags:
       - datasets
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -290,8 +272,6 @@ paths:
       tags:
       - requests
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -320,8 +300,6 @@ paths:
               $ref: '#/components/schemas/PredictionRequest'
         required: true
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '201':
@@ -344,8 +322,6 @@ paths:
       tags:
       - requests
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -379,8 +355,6 @@ paths:
               $ref: '#/components/schemas/PredictionRequest'
         required: true
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -413,8 +387,6 @@ paths:
             schema:
               $ref: '#/components/schemas/PatchedPredictionRequest'
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '200':
@@ -436,8 +408,6 @@ paths:
       tags:
       - requests
       security:
-      - cookieAuth: []
-      - basicAuth: []
       - {}
       responses:
         '204':
@@ -607,14 +577,6 @@ components:
       - label
       - probability
       - request_id
-  securitySchemes:
-    basicAuth:
-      type: http
-      scheme: basic
-    cookieAuth:
-      type: apiKey
-      in: cookie
-      name: Session
 servers:
 - url: http://127.0.0.1:8000
   description: server on localhost
