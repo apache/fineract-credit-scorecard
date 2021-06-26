@@ -1,0 +1,277 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+ <!-- ******Header****** -->
+ <header id="header" class="header">
+    <div class="container">
+        <div class="branding">
+            <h1 class="logo">
+                <a href="index.html">
+                    <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                    <span class="text-highlight">Pretty</span><span class="text-bold">Docs</span>
+                </a>
+            </h1>
+            
+        </div>
+        
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active">Quick Start</li>
+        </ol>
+        
+        <div class="top-search-box">
+             <form class="form-inline search-form justify-content-center" action="" method="get">
+        
+                <input type="text" placeholder="Search..." name="search" class="form-control search-input">
+                
+                <button type="submit" class="btn search-btn" value="Search"><i class="fas fa-search"></i></button>
+                
+            </form>
+        </div>
+        
+    </div>
+</header>
+<div class="doc-wrapper">
+    <div class="container">
+        <div id="doc-header" class="doc-header text-center">
+            <h1 class="doc-title"><i class="icon fa fa-paper-plane"></i> Quick Start</h1>
+            <div class="meta"><i class="far fa-clock"></i> Last updated: Oct 12th, 2020</div>
+        </div>
+        <div class="doc-body row">
+            
+            <div class="doc-sidebar col-md-3 col-12 order-0 d-none d-md-flex">
+                <div id="doc-nav" class="doc-nav">
+                    
+                        <nav id="doc-menu" class="nav doc-menu flex-column sticky">
+                            <a class="nav-link scrollto" href="#download-section">Download</a>
+                            <a class="nav-link scrollto" href="#installation-section">Installation</a>
+                            <nav class="doc-sub-menu nav flex-column">
+                                <a class="nav-link scrollto" href="#step1">Step One</a>
+                                <a class="nav-link scrollto" href="#step2">Step Two</a>
+                                <a class="nav-link scrollto" href="#step3">Step Three</a>
+                            </nav>
+                            <a class="nav-link scrollto" href="#code-section">Assess Credit Risk</a>
+                            <nav class="doc-sub-menu nav flex-column">
+                                <a class="nav-link scrollto" href="#html">Java Client SDK</a>
+                            </nav>
+                            <a class="nav-link scrollto" href="#callouts-section">Advanced</a>
+                            <!-- <nav class="doc-sub-menu nav flex-column">
+                                <a class="nav-link scrollto" href="#html">HTML</a>
+                                <a class="nav-link scrollto" href="#css">CSS</a>
+                                <a class="nav-link scrollto" href="#sass">Sass</a>
+                                <a class="nav-link scrollto" href="#less">LESS</a>
+                                <a class="nav-link scrollto" href="#javascript">JavaScript</a>
+                                <a class="nav-link scrollto" href="#python">Python</a>
+                                <a class="nav-link scrollto" href="#php">PHP</a>
+                                <a class="nav-link scrollto" href="#handlebars">Handlebars</a>
+                            </nav>
+                            <a class="nav-link scrollto" href="#callouts-section">Callouts</a>
+                            <a class="nav-link scrollto" href="#tables-section">Tables</a>
+                            <a class="nav-link scrollto" href="#buttons-section">Buttons</a>
+                            <a class="nav-link scrollto" href="#video-section">Video</a>
+                            <a class="nav-link scrollto" href="#icons-section">Icons</a> -->
+                        </nav>
+                    
+                </div>
+            </div>
+
+            <div class="col-md-9 col-12 order-1">
+                <div class="content-inner">
+                    <section id="download-section" class="doc-section">
+                        <h2 class="section-title">Download</h2>
+                        <div class="section-block">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec imperdiet turpis. Curabitur aliquet pulvinar ultrices. Etiam at posuere leo. Proin ultrices ex et dapibus feugiat <a href="#">link example</a> aenean purus leo, faucibus at elit vel, aliquet scelerisque dui. Etiam quis elit euismod, imperdiet augue sit amet, imperdiet odio. Aenean sem erat, hendrerit  eu gravida id, dignissim ut ante. Nam consequat porttitor libero euismod congue. 
+                            </p>
+                            <a href="https://themes.3rdwavemedia.com/bootstrap-templates/startup/prettydocs-free-bootstrap-theme-for-developers-and-startups/" class="btn btn-green" target="_blank"><i class="fas fa-download"></i> Download PrettyDocs</a>
+                        </div>
+                    </section>
+
+                    <section id="installation-section" class="doc-section">
+                        <h2 class="section-title">Installation</h2>
+                        <div id="step1"  class="section-block">
+                            <h3 class="block-title">Step One</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.
+                            </p>
+                            <div class="code-block">
+                                <h6>Default code example:</h6>
+                                <p><code>bower install &lt;package&gt;</code></p>
+                                <p><code>npm install &lt;package&gt;</code></p>
+                            </div>
+                        </div>
+                        <div id="step2"  class="section-block">
+                            <h3 class="block-title">Step Two</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+                            </p>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <h6>Un-ordered list example</h6>
+                                    <ul class="list">
+                                        <li>Lorem ipsum dolor sit amet.</li>
+                                        <li>Aliquam tincidunt mauris.</li>
+                                        <li>Ultricies eget vel aliquam libero.
+                                            <ul>
+                                                <li>Turpis pulvinar</li>
+                                                <li>Feugiat scelerisque</li>
+                                                <li>Ut tincidunt</li>
+                                            </ul>
+                                        </li>
+                                        <li>Pellentesque habitant morbi.</li>
+                                        <li>Praesent dapibus, neque id.</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <h6>Ordered list example</h6>
+                                    <ol class="list">
+                                        <li>Lorem ipsum dolor sit amet.</li>
+                                        <li>Aliquam tincidunt mauris.</li>
+                                        <li>Ultricies eget vel aliquam libero.
+                                            <ul>
+                                                <li>Turpis pulvinar</li>
+                                                <li>Feugiat scelerisque</li>
+                                                <li>Ut tincidunt</li>
+                                            </ul>
+                                        </li>
+                                        <li>Pellentesque habitant morbi.</li>
+                                        <li>Praesent dapibus, neque id.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="step3"  class="section-block">
+                            <h3 class="block-title">Step Three</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.
+                            </p>
+                        </div>
+                    </section>
+                    
+                    <section id="code-section" class="doc-section">
+                        <h2 class="section-title">Code</h2>
+                        <div class="section-block">
+                            <p>
+                                <a href="https://prismjs.com/" target="_blank">PrismJS</a> is used as the syntax highlighter here. You can <a href="https://prismjs.com/download.html" target="_blank">build your own version</a> via their website should you need to.
+                            </p>
+                            
+                        </div>
+                        <div id="html" class="section-block">
+                            
+                            <div class="callout-block callout-success">
+                                <div class="icon-holder">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </div>
+                                <div class="content">
+                                    <h4 class="callout-title">Useful Tip:</h4>
+                                    <p>You can use this online <a href="https://mothereff.in/html-entities" target="_blank">HTML entity encoder/decoder</a> to generate your code examples.</p>
+                                </div>
+                            </div>
+                            <div class="code-block">
+                                <h6>HTML Code Example</h6>
+                                <pre>
+<code class="language-java">// Import classes:
+import org.apache.fineract.cn.sekhmet.ApiClient;
+import org.apache.fineract.cn.sekhmet.ApiException;
+import org.apache.fineract.cn.sekhmet.Configuration;
+import org.apache.fineract.cn.sekhmet.models.*;
+import org.apache.fineract.cn.sekhmet.services.AlgorithmsApi;
+
+public class Example {
+    public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://127.0.0.1:8000");
+
+    AlgorithmsApi apiInstance = new AlgorithmsApi(defaultClient);
+    String classifier = "RandomForestClassifier"; // String | The algorithm/classifier to use
+    String version = "0.0.1"; // String | Algorithm version
+    String dataset = "german"; // String | The name of the dataset
+    String status = "production"; // String | The status of the algorithm
+    Map&lt;String, Object&gt; requestBody = null; // Map&lt;String, Object&gt; | input Object to predict
+    try {
+        PredictionResponse result = apiInstance.algorithmsPredict(classifier, version, dataset, status, requestBody);
+        System.out.println(result);
+    } catch (ApiException e) {
+        System.err.println("Exception when calling AlgorithmsApi#algorithmsPredict");
+        System.err.println("Status code: " + e.getCode());
+        System.err.println("Reason: " + e.getResponseBody());
+        System.err.println("Response headers: " + e.getResponseHeaders());
+        e.printStackTrace();
+    }
+    }
+}</code>
+                                </pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="callouts-section" class="doc-section">
+                        <h2 class="section-title">Callouts</h2>
+                        <div class="section-block">
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. 
+                            </p>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="callout-block callout-info">
+                                <div class="icon-holder">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="content">
+                                    <h4 class="callout-title">Aenean imperdiet</h4>
+                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium <code>&lt;code&gt;</code> , Nemo enim ipsam voluptatem quia voluptas <a href="#">link example</a> sit aspernatur aut odit aut fugit.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="callout-block callout-warning">
+                                <div class="icon-holder">
+                                    <i class="fas fa-bug"></i>
+                                </div>
+                                <div class="content">
+                                    <h4 class="callout-title">Morbi posuere</h4>
+                                    <p>Nunc hendrerit odio quis dignissim efficitur. Proin ut finibus libero. Morbi posuere fringilla felis eget sagittis. Fusce sem orci, cursus in tortor <a href="#">link example</a> tellus vel diam viverra elementum.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="callout-block callout-success">
+                                <div class="icon-holder">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </div>
+                                <div class="content">
+                                    <h4 class="callout-title">Lorem ipsum dolor sit amet</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. <a href="#">Link example</a> aenean commodo ligula eget dolor.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="callout-block callout-danger">
+                                <div class="icon-holder">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="content">
+                                    <h4 class="callout-title">Interdum et malesuada</h4>
+                                    <p>Morbi eget interdum sapien. Donec sed turpis sed nulla lacinia accumsan vitae ut tellus. Aenean vestibulum <a href="#">Link example</a> maximus ipsum vel dignissim. Morbi ornare elit sit amet massa feugiat, viverra dictum ipsum pellentesque. </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block css %}
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/plugins/prism/prism.css' %}"> 
+
+{% endblock %}
+
+{% block scripts %}
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'assets/plugins/prism/prism.js' %}"></script>    
+    <script type="text/javascript" src="{% static 'assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js' %}"></script> 
+
+{% endblock %}

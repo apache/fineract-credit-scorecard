@@ -121,13 +121,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedAlgorithm'
+              $ref: '#/components/schemas/Algorithm'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedAlgorithm'
+              $ref: '#/components/schemas/Algorithm'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedAlgorithm'
+              $ref: '#/components/schemas/Algorithm'
+        required: true
       security:
       - {}
       responses:
@@ -379,13 +380,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedPredictionRequest'
+              $ref: '#/components/schemas/PredictionRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedPredictionRequest'
+              $ref: '#/components/schemas/PredictionRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedPredictionRequest'
+              $ref: '#/components/schemas/PredictionRequest'
+        required: true
       security:
       - {}
       responses:
@@ -465,65 +467,6 @@ components:
       - id
       - name
       - region
-    PatchedAlgorithm:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        classifier:
-          type: string
-          maxLength: 128
-        description:
-          type: string
-          nullable: true
-        version:
-          type: string
-          maxLength: 128
-        status:
-          type: string
-          maxLength: 128
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          maxLength: 128
-        dataset:
-          type: string
-          nullable: true
-    PatchedPredictionRequest:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        input:
-          type: object
-          additionalProperties: {}
-        response:
-          type: object
-          additionalProperties: {}
-        prediction:
-          type: string
-          maxLength: 128
-        feedback:
-          type: string
-          nullable: true
-          maxLength: 128
-        notes:
-          type: string
-          nullable: true
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        created_by:
-          type: string
-          maxLength: 128
-        algorithm:
-          type: integer
     PredictionRequest:
       type: object
       properties:
