@@ -78,7 +78,7 @@ class Classifier(object):
         
         for key, value in data.items():
             if type(value) == str:
-                data[key] = value.lower()
+                data[key] = value
                 
         print(data)
 
@@ -137,31 +137,31 @@ class Classifier(object):
 class RandomForestClassifier(Classifier):
     
     def __init__(self,
-                 model=joblib.load('zoo/german/rf_classifier.joblib'),
-                 categorical=joblib.load('zoo/german/categorical.joblib'),
-                 label_encoders=joblib.load('zoo/german/label_encoders.joblib')):
+                 model=joblib.load('zoo/models/german/rf_classifier.joblib'),
+                 categorical=joblib.load('zoo/models/german/categorical.joblib'),
+                 label_encoders=joblib.load('zoo/models/german/label_encoders.joblib')):
         super(RandomForestClassifier, self).__init__(model, categorical, label_encoders)
 
 class SVC(Classifier):
     
     def __init__(self,
-                 model=joblib.load('zoo/german/svc_classifier.joblib'),
-                 categorical=joblib.load('zoo/german/categorical.joblib'),
-                 label_encoders=joblib.load('zoo/german/label_encoders.joblib')):
+                 model=joblib.load('zoo/models/german/svc_classifier.joblib'),
+                 categorical=joblib.load('zoo/models/german/categorical.joblib'),
+                 label_encoders=joblib.load('zoo/models/german/label_encoders.joblib')):
         super(SVC, self).__init__(model, categorical, label_encoders)
 
 class MLP(Classifier):
     
     def __init__(self,
-                 model=joblib.load('zoo/german/mlp_classifier.joblib'),
-                 categorical=joblib.load('zoo/german/categorical.joblib'),
-                 label_encoders=joblib.load('zoo/german/label_encoders.joblib')):
+                 model=joblib.load('zoo/models/german/mlp_classifier.joblib'),
+                 categorical=joblib.load('zoo/models/german/categorical.joblib'),
+                 label_encoders=joblib.load('zoo/models/german/label_encoders.joblib')):
         super(MLP, self).__init__(model, categorical, label_encoders)
 
 class GradientBoostClassifier(Classifier):
     
     def __init__(self,
-                 model=joblib.load('zoo/german/gb_classifier.joblib'),
-                 categorical=joblib.load('zoo/german/categorical.joblib'),
-                 label_encoders=joblib.load('zoo/german/label_encoders.joblib')):
+                 model=joblib.load('zoo/models/german/gb_classifier.joblib'),
+                 categorical=joblib.load('zoo/models/german/categorical.joblib'),
+                 label_encoders=joblib.load('zoo/models/german/label_encoders.joblib')):
         super(GradientBoostClassifier, self).__init__(model, categorical, label_encoders)

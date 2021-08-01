@@ -8,12 +8,11 @@
             <div class="branding">
                 <h1 class="logo">
                     <span aria-hidden="true" class="icon_documents_alt icon"></span>
-                    <span class="text-highlight">Pretty</span><span class="text-bold">Docs</span>
+                    <span class="text-highlight">Fineract CN</span><span class="text-bold"> Sekhmet</span>
                 </h1>
             </div>
             <div class="tagline">
-                <p>Free Bootstrap 4 theme for your project documentation</p>
-                <p>Designed with <i class="fas fa-heart"></i> for developers</p>
+                <p>A Machine Learning Platform for Credit Scoring</p>
             </div>
             
                 <div class="main-search-box pt-3 pb-4 d-inline-block">
@@ -50,7 +49,7 @@
             <div class="intro">
                 <p>Download a client SDK for your relevant platform to start using the API</p>
                 <div class="cta-container">
-                    <a class="btn btn-primary" href="#" target="_blank"><i class="bi bi-download"></i> Download Client SDK</a>
+                    <a class="btn btn-primary" href="{% url 'docs' %}#download"><i class="bi bi-download"></i> Download Client SDK</a>
                 </div>
             </div>
             <div id="cards-wrapper" class="cards-wrapper row">
@@ -60,8 +59,8 @@
                             <i class="icon bi bi-lightning-charge"></i>
                         </div>
                         <h3 class="title">Quick Start</h3>
-                        <p class="intro">Get started with reference implementation with fineract</p>
-                        <a class="link" href="#" target="_blank"><span></span></a>
+                        <p class="intro">Explore credit scoring as a service</p>
+                        <a class="link" href="{% url 'docs' %}#quickstart"><span></span></a>
                     </div>
                 </div>
                 <div class="item item-primary item-2 col-lg-4 col-6">
@@ -92,7 +91,7 @@
                         </div>
                         <h3 class="title">Swagger Docs</h3>
                         <p class="intro">Explore web API documentation with swagger</p>
-                        <a class="link" href="http://127.0.0.1:8000/api-docs/swagger-ui" target="_blank"><span></span></a>
+                        <a class="link" href="{{ host }}/api-docs/swagger-ui" target="_blank"><span></span></a>
                     </div>
                 </div>
                 <div class="item item-purple col-lg-4 col-6">
@@ -102,7 +101,7 @@
                         </div>
                         <h3 class="title">Redoc</h3>
                         <p class="intro">Explore web API documentation with redoc</p>
-                        <a class="link" href="http://127.0.0.1:8000/api-docs/redoc" target="_blank"><span></span></a>
+                        <a class="link" href="{{ host }}/api-docs/redoc" target="_blank"><span></span></a>
                     </div>
                 </div>
                 <div class="item item-pink col-lg-4 col-6">
@@ -112,7 +111,7 @@
                         </div>
                         <h3 class="title">Browsable API</h3>
                         <p class="intro">Explore django rest framework browsable API.</p>
-                        <a class="link" href="http://127.0.0.1:8000/api/v1/" target="_blank"><span></span></a>
+                        <a class="link" href="{{ host }}/api/v1/" target="_blank"><span></span></a>
                     </div>
                 </div>
             </div>

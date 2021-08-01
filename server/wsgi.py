@@ -61,9 +61,9 @@ if ('runserver' in sys.argv or 'test' in sys.argv):
         
         registry.add_algorithms([
             # Random Forest classifier
-            {'classifier': RandomForestClassifier(model=joblib.load(f'zoo/{zone}/rf_classifier.joblib'),
-                                                  categorical=joblib.load(f'zoo/{zone}/categorical.joblib'),
-                                                  label_encoders=joblib.load(f'zoo/{zone}/label_encoders.joblib')),
+            {'classifier': RandomForestClassifier(model=joblib.load(f'zoo/models/{zone}/rf_classifier.joblib'),
+                                                  categorical=joblib.load(f'zoo/models/{zone}/categorical.joblib'),
+                                                  label_encoders=joblib.load(f'zoo/models/{zone}/label_encoders.joblib')),
              'description': "Random Forest with simple pre and post-processing",
              'status': "production",
              'version': "0.0.1",
@@ -72,9 +72,9 @@ if ('runserver' in sys.argv or 'test' in sys.argv):
              'created_by': "xurror"},
             
             # SVC classifier
-            {'classifier': SVC(model=joblib.load(f'zoo/{zone}/svc_classifier.joblib'),
-                               categorical=joblib.load(f'zoo/{zone}/categorical.joblib'),
-                               label_encoders=joblib.load(f'zoo/{zone}/label_encoders.joblib')),
+            {'classifier': SVC(model=joblib.load(f'zoo/models/{zone}/svc_classifier.joblib'),
+                               categorical=joblib.load(f'zoo/models/{zone}/categorical.joblib'),
+                               label_encoders=joblib.load(f'zoo/models/{zone}/label_encoders.joblib')),
              'description': "SVC Classifier with simple pre- and post-processing",
              'status': "testing",
              'version': "0.0.1",
@@ -83,9 +83,9 @@ if ('runserver' in sys.argv or 'test' in sys.argv):
              'created_by': "xurror"},
             
             # MLP classifier
-            {'classifier': MLP(model=joblib.load(f'zoo/{zone}/mlp_classifier.joblib'),
-                               categorical=joblib.load(f'zoo/{zone}/categorical.joblib'),
-                               label_encoders=joblib.load(f'zoo/{zone}/label_encoders.joblib')),
+            {'classifier': MLP(model=joblib.load(f'zoo/models/{zone}/mlp_classifier.joblib'),
+                               categorical=joblib.load(f'zoo/models/{zone}/categorical.joblib'),
+                               label_encoders=joblib.load(f'zoo/models/{zone}/label_encoders.joblib')),
              'description': "MLP Classifier with simple pre- and post-processing",
              'status': "testing",
              'version': "0.0.1",
@@ -94,9 +94,9 @@ if ('runserver' in sys.argv or 'test' in sys.argv):
              'created_by': "xurror"},
             
             # Gradient Boost classifier
-            {'classifier': GradientBoostClassifier(model=joblib.load(f'zoo/{zone}/gb_classifier.joblib'),
-                                                   categorical=joblib.load(f'zoo/{zone}/categorical.joblib'),
-                                                   label_encoders=joblib.load(f'zoo/{zone}/label_encoders.joblib')),
+            {'classifier': GradientBoostClassifier(model=joblib.load(f'zoo/models/{zone}/gb_classifier.joblib'),
+                                                   categorical=joblib.load(f'zoo/models/{zone}/categorical.joblib'),
+                                                   label_encoders=joblib.load(f'zoo/models/{zone}/label_encoders.joblib')),
              'description': "Gradient Boost CLassifier with simple pre- and post-processing",
              'status': "testing",
              'version': "0.0.1",
