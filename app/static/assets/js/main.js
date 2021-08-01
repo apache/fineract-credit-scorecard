@@ -18,14 +18,5 @@ $(document).ready(function() {
 		$('body').scrollTo(target, 800, {offset: 0, 'axis':'y'});
 		
 	});
-     
-    /* Bootstrap lightbox */
-    /* Ref: http://ashleydw.github.io/lightbox/ */
-
-    $(document).delegate('*[data-toggle="lightbox"]', 'click', function(e) {
-        e.preventDefault();
-        $(this).ekkoLightbox();
-    });    
-
 
 });

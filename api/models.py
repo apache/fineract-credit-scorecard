@@ -99,36 +99,3 @@ class PredictionRequest(models.Model):
                 
     class Meta:
         ordering = ['created_at']
-
-
-# class Configuration(models.Model):
-#     """Tasks for the To Do list."""
-#     product = models.CharField(max_length=20)
-#     feature = models.CharField(max_length=20)
-#     category = models.CharField(max_length=60)
-#     weightage = models.CharField(max_length=20)
-#     greenmin = models.CharField(max_length=20)
-#     greenmax = models.CharField(max_length=20)
-#     ambermin = models.CharField(max_length=20)
-#     ambermax = models.CharField(max_length=20)
-#     redmin = models.CharField(max_length=20)
-#     redmax = models.CharField(max_length=20)
-
-# class Criteria(models.Model):
-#     """Tasks for the To Do list."""
-#     product = models.CharField(max_length=20)
-#     category = models.CharField(max_length=20)
-#     datasource = models.CharField(max_length=20)
-#     sqlapi = models.CharField(max_length=20)
-#     keyvalue = models.CharField(max_length=20)
-#     feature = models.CharField(max_length=20)
-#     criteria = Column(ARRAY(String))
-#     score = Column(ARRAY(String))
-
-# class Feature(models.Model):
-#     """Tasks for the To Do list."""
-#     value = models.CharField(max_length=20)
-#     category = models.CharField(max_length=20)
-#     feature = models.CharField(max_length=60)
-#     data = models.CharField(max_length=20)
-#     status = models.CharField(max_length=20)
