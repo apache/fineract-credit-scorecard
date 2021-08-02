@@ -33,6 +33,7 @@ For more information, visit
 https://docs.djangoproject.com/en/2.1/howto/deployment/wsgi/
 """
 
+import logging
 import os
 import sys
 import joblib
@@ -41,6 +42,8 @@ from django.core.wsgi import get_wsgi_application
 
 from ml.registry import MLRegistry
 from ml.classifiers import GradientBoostClassifier, MLP, RandomForestClassifier, SVC
+
+log = logging.getLogger(__name__)
 
 os.environ.setdefault(
     'DJANGO_SETTINGS_MODULE',
@@ -105,5 +108,5 @@ if ('runserver' in sys.argv or 'test' in sys.argv):
              'created_by': "xurror"}])
         
     except Exception as e:
-        print("Exception while loading the algorithms to the registry,", str(e))
+        log.debug(f"Exception while loading the algorithms to the registry; {str(e)}")
         exit()

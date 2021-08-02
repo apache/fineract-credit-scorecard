@@ -79,9 +79,7 @@ class Classifier(object):
         for key, value in data.items():
             if type(value) == str:
                 data[key] = value
-                
-        print(data)
-
+     
         data = pd.DataFrame(data, index=[0])
 
         # fill missing values
