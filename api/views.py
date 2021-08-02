@@ -17,6 +17,7 @@
 
 import json
 import logging
+from statistical_scripts.statistical_scoring import stat_score
 from typing import Any, Dict
 
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample, inline_serializer
@@ -41,13 +42,14 @@ from server.wsgi import registry
 
 log = logging.getLogger(__name__)
 
+
 class AlgorithmViewSet(viewsets.ModelViewSet):
     # permission_classes = []
     serializer_class = AlgorithmSerializer
     queryset = Algorithm.objects.all()
 
     @extend_schema(
-        description='Predict credit risk for a loan',        
+        description='Predict credit risk for a loan',
         parameters=[
             OpenApiParameter(name='classifier',
                              description='The algorithm/classifier to use',
@@ -75,13 +77,13 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
     )
     @action(detail=False, methods=['post'])
     def predict(self, request, format=None):
-        
+
         try:
             classifier = self.request.query_params.get("classifier")
             region = self.request.query_params.get("dataset", "Germany")
             version = self.request.query_params.get("version")
             status = self.request.query_params.get("status", "production")
-            
+
             if version is None:
                 raise bad_request(request=request,
                                   data={"error": "Missing required query parameter: version"})
@@ -97,11 +99,19 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
             if algorithm is None:
                 raise bad_request(request=request,
                                   data={"error": "ML algorithm is not available"})
-            
-            classifier = registry.classifiers[algorithm.id]
-            prediction = classifier.compute_prediction(request.data)
 
-            label = prediction["label"]
+            if classifier in ['manova', 'linearRegression', 'polynomialRegression']:
+                prediction = stat_score(request.data, classifier)
+
+            else:
+                classifier = registry.classifiers[algorithm.id]
+                prediction = classifier.compute_prediction(request.data)
+
+            if "label" in prediction:
+                label = prediction["label"]
+            else:
+                label = prediction['method']
+
             prediction_request = PredictionRequest(input=json.dumps(request.data),
                                                    response=prediction,
                                                    prediction=label,
@@ -115,10 +125,12 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
         except Exception as e:
             raise APIException(str(e))
 
+
 class PredictionRequestViewSet(viewsets.ModelViewSet):
     # permission_classes = []
     serializer_class = PredictionRequestSerializer
     queryset = PredictionRequest.objects.all()
+
 
 class DatasetViewSet(viewsets.ReadOnlyModelViewSet):
     # permission_classes = []
