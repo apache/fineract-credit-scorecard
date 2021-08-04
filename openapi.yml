@@ -193,6 +193,7 @@ paths:
         name: version
         schema:
           type: string
+          default: 0.0.1
         description: Algorithm version
         required: true
         examples:
@@ -499,7 +500,6 @@ components:
         algorithm:
           type: integer
       required:
-      - algorithm
       - created_at
       - created_by
       - id
@@ -514,12 +514,34 @@ components:
           format: float
         label:
           type: string
+        method:
+          type: string
+        color:
+          type: string
+        wilkis_lambda:
+          type: number
+          format: float
+        pillais_trace:
+          type: number
+          format: float
+        hotelling_tawley:
+          type: number
+          format: float
+        roys_reatest_roots:
+          type: number
+          format: float
         request_id:
           type: integer
       required:
+      - color
+      - hotelling_tawley
       - label
+      - method
+      - pillais_trace
       - probability
       - request_id
+      - roys_reatest_roots
+      - wilkis_lambda
 servers:
 - url: http://127.0.0.1:8000
   description: server on localhost

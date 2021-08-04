@@ -66,6 +66,7 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
             OpenApiParameter(name='version',
                              description='Algorithm version',
                              required=True,
+                             default='0.0.1',
                              examples=[OpenApiExample('Example 1', value='0.0.1')]),
         ],
         operation_id='algorithms_predict',
@@ -73,6 +74,12 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
         responses=inline_serializer(name="PredictionResponse",
                                     fields={"probability": FloatField(),
                                             "label": CharField(),
+                                            "method": CharField(),
+                                            "color": CharField(),
+                                            "wilkis_lambda": FloatField(),
+                                            "pillais_trace": FloatField(),
+                                            "hotelling_tawley": FloatField(),
+                                            "roys_reatest_roots": FloatField(),
                                             "request_id": IntegerField()})
     )
     @action(detail=False, methods=['post'])
@@ -81,8 +88,10 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
         try:
             classifier = self.request.query_params.get("classifier")
             region = self.request.query_params.get("dataset", "Germany")
-            version = self.request.query_params.get("version")
+            version = self.request.query_params.get("version", "0.0.1")
             status = self.request.query_params.get("status", "production")
+            
+            print(request)
 
             if version is None:
                 raise bad_request(request=request,
@@ -91,19 +100,20 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
                 raise bad_request(request=request,
                                   data={"error": "Missing required query parameter: classifier"})
 
-            algorithm: Algorithm = Algorithm.objects.filter(classifier=classifier,
-                                                            status=status,
-                                                            version=version,
-                                                            dataset__name=region)[0]
-
-            if algorithm is None:
-                raise bad_request(request=request,
-                                  data={"error": "ML algorithm is not available"})
 
             if classifier in ['manova', 'linearRegression', 'polynomialRegression']:
                 prediction = stat_score(request.data, classifier)
+                algorithm = None
 
             else:
+                algorithm: Algorithm = Algorithm.objects.filter(classifier=classifier,
+                                                                status=status,
+                                                                version=version,
+                                                                dataset__name=region)[0]
+
+                if algorithm is None:
+                    raise bad_request(request=request,
+                                    data={"error": "ML algorithm is not available"})
                 classifier = registry.classifiers[algorithm.id]
                 prediction = classifier.compute_prediction(request.data)
 

@@ -22,9 +22,14 @@ def linear_regression(input_row, data, categorical):
     le = LabelEncoder()
     for val in categorical:
         data[val] = le.fit_transform(data[val])
+       
+    data['job'] = data['job'].astype('int')
+    
     for col in data.columns:
-        if(col not in categorical):
+        if(col not in categorical):            
             data[col] = (data[col] - np.mean(data[col]))/np.std(data[col])
+
+    print(data)
 
     split = 0.8
     split_idx = int(len(data)*split)
@@ -37,6 +42,8 @@ def linear_regression(input_row, data, categorical):
     x_test = data_test.loc[:, data_test.columns != 10]
 
     reg = LinearRegression().fit(x_train, y_train)
+    
+    print(data)
 
     predictions = reg.predict(x_test)
     for i in range(len(predictions)):
@@ -143,9 +150,16 @@ def manova(test_row, data, categorical):
     out_good = np.array(output_good['x0']['stat'])
     out_bad = np.array(output_bad['x0']['stat'])
 
+	# Wilki's Lambda
     WL_good = out_good[0][0]
+    
+    # Pillai's Trace
     PT_good = out_good[1][0]
+    
+    # Hotelling-Lawley Trace
     HT_good = out_good[2][0]
+    
+    # Roy's Greatest Roots
     RGR_good = out_good[3][0]
 
     WL_bad = out_bad[0][0]
@@ -164,9 +178,16 @@ def manova(test_row, data, categorical):
 
     out_test = np.array(output_test['x0']['stat'])
 
+	# Wilki's Lambda
     WL_test_good = out_test[0][0]
+    
+    # Pillai's Trace
     PT_test_good = out_test[1][0]
+    
+    # Hotelling-Lawley Trace
     HT_test_good = out_test[2][0]
+    
+    # Roy's Greatest Roots
     RGR_test_good = out_test[3][0]
 
     data_test_x = x_bad.append(x)
@@ -195,10 +216,29 @@ def manova(test_row, data, categorical):
 
 def stat_score(input_row, model_type):
     df = pd.read_csv(f'zoo/data/german.csv', index_col=0)
-    data = df.drop(columns=['Saving accounts', 'Checking account'])
+    data = df.drop(columns=['Saving accounts', 'Checking account', 'Risk'])
+        
+    dat_dict = data.to_dict()
+    new_dat_dict = {}
+
+    # rename columns(Make them lowercase and snakecase)
+    for key, value in dat_dict.items():
+        newKey = key
+        if type(key) == str:
+            newKey = newKey.lower().replace(' ', '_')
+        # if newKey != key:
+        new_dat_dict[newKey] = dat_dict[key]
+    del dat_dict
+
+    data = pd.DataFrame.from_dict(new_dat_dict)
+    del new_dat_dict
+    
     cols = data.columns
     num_cols = data._get_numeric_data().columns
     categorical = list(set(cols) - set(num_cols))
+    
+    print(categorical)
+    print(input_row)
 
     try:
         if(model_type == 'manova'):
