@@ -16,6 +16,8 @@ import csv
 log = logging.getLogger(__name__)
 
 def linear_regression(input_row, data, categorical):
+    
+    print(input_row)
 
     data = data.dropna()
     data.loc[len(data)] = input_row
