@@ -21,7 +21,6 @@ from django.test import TestCase
 
 import inspect
 
-
 test_data = {
     "age": 22,
     "sex": "female",
@@ -34,49 +33,51 @@ test_data = {
 
 expected_output = 'bad'
 
+
 class MLTests(TestCase):
-    
     def test_rf_algorithm(self):
         my_alg = RandomForestClassifier()
-        response = my_alg.compute_prediction(test_data)        
+        response = my_alg.compute_prediction(test_data)
         # self.assertEqual('OK', response['status'])
         self.assertTrue('label' in response)
         self.assertEqual(expected_output, response['label'])
-        
+
     # def test_svc_algorithm(self):
     #     my_alg = SVC()
     #     response = my_alg.compute_prediction(test_data)
     #     self.assertEqual('OK', response['status'])
     #     self.assertTrue('label' in response)
     #     self.assertEqual(expected_output, response['label'])
-        
+
     def test_mlp_algorithm(self):
         my_alg = MLP()
         response = my_alg.compute_prediction(test_data)
         # self.assertEqual('OK', response['status'])
         self.assertTrue('label' in response)
         self.assertEqual(expected_output, response['label'])
-        
+
     def test_gb_algorithm(self):
         my_alg = GradientBoostClassifier()
         response = my_alg.compute_prediction(test_data)
         # self.assertEqual('OK', response['status'])
         self.assertTrue('label' in response)
         self.assertEqual(expected_output, response['label'])
-        
+
     def test_registry(self):
         registry = MLRegistry()
         self.assertEqual(len(registry.classifiers), 0)
-        
+
         # Random Forest classifier
-        rf_algo = {'classifier': RandomForestClassifier(),
-                   'description': "Random Forest with simple pre and post-processing",
-                   'status': "production",
-                   'version': "0.0.1",
-                   'dataset': 'German',
-                   'region': 'Germany',
-                   'created_by': "xurror"}
-        
+        rf_algo = {
+            'classifier': RandomForestClassifier(),
+            'description': "Random Forest with simple pre and post-processing",
+            'status': "production",
+            'version': "0.0.1",
+            'dataset': 'German',
+            'region': 'Germany',
+            'created_by': "xurror"
+        }
+
         # add to registry
         registry.add_algorithms([rf_algo])
         # there should be one endpoint available

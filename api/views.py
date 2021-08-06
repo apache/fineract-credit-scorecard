@@ -28,9 +28,6 @@ from rest_framework.exceptions import APIException, bad_request
 from rest_framework.fields import CharField, FloatField, IntegerField
 from rest_framework.response import Response
 
-# from rest_framework import permissions
-# from rest_framework_api_key.permissions import HasAPIKey
-
 from api.models import Algorithm, Dataset, PredictionRequest
 from api.serializers import AlgorithmSerializer, PredictionRequestSerializer, DatasetSerializer
 
@@ -51,37 +48,45 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
     @extend_schema(
         description='Predict credit risk for a loan',
         parameters=[
-            OpenApiParameter(name='classifier',
-                             description='The algorithm/classifier to use',
-                             required=True,
-                             examples=[OpenApiExample('Example 1',
-                                                      value=RandomForestClassifier().__class__.__name__)]),
-            OpenApiParameter(name='dataset',
-                             description='The name of the dataset',
-                             examples=[OpenApiExample('Example 1', value='german')]),
-            OpenApiParameter(name='status',
-                             description='The status of the algorithm',
-                             deprecated=True,
-                             examples=[OpenApiExample('Example 1', value='production')]),
-            OpenApiParameter(name='version',
-                             description='Algorithm version',
-                             required=True,
-                             default='0.0.1',
-                             examples=[OpenApiExample('Example 1', value='0.0.1')]),
+            OpenApiParameter(
+                name='classifier',
+                description='The algorithm/classifier to use',
+                required=True,
+                examples=[
+                    OpenApiExample(
+                        'Example 1',
+                        value=RandomForestClassifier().__class__.__name__)
+                ]),
+            OpenApiParameter(
+                name='dataset',
+                description='The name of the dataset',
+                examples=[OpenApiExample('Example 1', value='german')]),
+            OpenApiParameter(
+                name='status',
+                description='The status of the algorithm',
+                deprecated=True,
+                examples=[OpenApiExample('Example 1', value='production')]),
+            OpenApiParameter(
+                name='version',
+                description='Algorithm version',
+                required=True,
+                default='0.0.1',
+                examples=[OpenApiExample('Example 1', value='0.0.1')]),
         ],
         operation_id='algorithms_predict',
         request=Dict[str, Any],
         responses=inline_serializer(name="PredictionResponse",
-                                    fields={"probability": FloatField(),
-                                            "label": CharField(),
-                                            "method": CharField(),
-                                            "color": CharField(),
-                                            "wilkis_lambda": FloatField(),
-                                            "pillais_trace": FloatField(),
-                                            "hotelling_tawley": FloatField(),
-                                            "roys_reatest_roots": FloatField(),
-                                            "request_id": IntegerField()})
-    )
+                                    fields={
+                                        "probability": FloatField(),
+                                        "label": CharField(),
+                                        "method": CharField(),
+                                        "color": CharField(),
+                                        "wilkis_lambda": FloatField(),
+                                        "pillais_trace": FloatField(),
+                                        "hotelling_tawley": FloatField(),
+                                        "roys_reatest_roots": FloatField(),
+                                        "request_id": IntegerField()
+                                    }))
     @action(detail=False, methods=['post'])
     def predict(self, request, format=None):
 
@@ -90,30 +95,39 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
             region = self.request.query_params.get("dataset", "german")
             version = self.request.query_params.get("version", "0.0.1")
             status = self.request.query_params.get("status", "production")
-            
+
             print(request)
 
             if version is None:
-                raise bad_request(request=request,
-                                  data={"error": "Missing required query parameter: version"})
+                raise bad_request(
+                    request=request,
+                    data={
+                        "error": "Missing required query parameter: version"
+                    })
             if classifier is None:
-                raise bad_request(request=request,
-                                  data={"error": "Missing required query parameter: classifier"})
+                raise bad_request(
+                    request=request,
+                    data={
+                        "error": "Missing required query parameter: classifier"
+                    })
 
-
-            if classifier in ['manova', 'linearRegression', 'polynomialRegression']:
+            if classifier in [
+                    'manova', 'linearRegression', 'polynomialRegression'
+            ]:
                 prediction = stat_score(request.data, classifier)
                 algorithm = None
 
             else:
-                algorithm: Algorithm = Algorithm.objects.filter(classifier=classifier,
-                                                                status=status,
-                                                                version=version,
-                                                                dataset__name=region)[0]
+                algorithm: Algorithm = Algorithm.objects.filter(
+                    classifier=classifier,
+                    status=status,
+                    version=version,
+                    dataset__name=region)[0]
 
                 if algorithm is None:
-                    raise bad_request(request=request,
-                                    data={"error": "ML algorithm is not available"})
+                    raise bad_request(
+                        request=request,
+                        data={"error": "ML algorithm is not available"})
                 classifier = registry.classifiers[algorithm.id]
                 prediction = classifier.compute_prediction(request.data)
 
@@ -122,7 +136,8 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
             else:
                 label = prediction['method']
 
-            prediction_request = PredictionRequest(input=json.dumps(request.data),
+            prediction_request = PredictionRequest(input=json.dumps(
+                request.data),
                                                    response=prediction,
                                                    prediction=label,
                                                    feedback="",

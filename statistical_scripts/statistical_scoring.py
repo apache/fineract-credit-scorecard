@@ -1,122 +1,46 @@
-import json
 import logging
 import numpy as np
 import pandas as pd
-import requests
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import LabelEncoder
-from scipy.stats import norm
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.pipeline import Pipeline
 from statsmodels.multivariate.manova import MANOVA
-import configparser
-import csv
-
+from rest_framework.exceptions import APIException
 
 log = logging.getLogger(__name__)
 
-def linear_regression(input_row, data, categorical):
-    
-    print(input_row)
 
-    data = data.dropna()
-    data.loc[len(data)] = input_row
-    le = LabelEncoder()
-    for val in categorical:
-        data[val] = le.fit_transform(data[val])
-       
-    data['job'] = data['job'].astype('int')
-    
-    for col in data.columns:
-        if(col not in categorical):            
-            data[col] = (data[col] - np.mean(data[col]))/np.std(data[col])
+def linear_regression(input_data, data):
 
-    print(data)
+    y = data['risk']
+    x = data.drop(columns=['risk'])
 
-    split = 0.8
-    split_idx = int(len(data)*split)
-    data_train = data[:split_idx]
-    data_test = data[split_idx:]
+    reg = LinearRegression().fit(x, y)
 
-    y_train = data_train[10]
-    x_train = data_train.loc[:, data_train.columns != 10]
-    y_test = data_test[10]
-    x_test = data_test.loc[:, data_test.columns != 10]
+    predictions = reg.predict(input_data)
 
-    reg = LinearRegression().fit(x_train, y_train)
-    
-    print(data)
+    probability = predictions[0]
+    color = 'green' if probability > 0.5 else 'red'
 
-    predictions = reg.predict(x_test)
-    for i in range(len(predictions)):
-        if predictions[i] > 0.5:
-            predictions[i] = 1
-        else:
-            predictions[i] = 0
-
-    count = 0
-    y_test = np.array(y_test)
-    for i in range(len(predictions)):
-        if(y_test[i] == predictions[i]):
-            count = count + 1
-    accuracy = count/len(predictions)
-
-    if(predictions[len(x_test)-1] < 0.5):
-        color = "red"
-    else:
-        color = "green"
-
-    return {"method": "LinReg", "color": color, "prediction": 100*accuracy}
+    return {"color": color, "probability": probability}
 
 
-def polynomial_regression(input_row, data, categorical):
+def polynomial_regression(input_data, data):
 
-    data = data.dropna()
-    data.loc[len(data)] = input_row
-    le = LabelEncoder()
-    for val in categorical:
-        data[val] = le.fit_transform(data[val])
-
-    for col in data.columns:
-        if(col not in categorical):
-            data[col] = (data[col] - np.mean(data[col]))/np.std(data[col])
-
-    split = 0.7
-    split_idx = int(len(data)*split)
-    data_train = data[:split_idx]
-    data_test = data[split_idx:]
-
-    y_train = data_train[10]
-    x_train = data_train.loc[:, data_train.columns != 10]
-    y_test = data_test[10]
-    x_test = data_test.loc[:, data_test.columns != 10]
+    y = data['risk']
+    x = data.drop(columns=['risk'])
 
     model = Pipeline([('poly', PolynomialFeatures(degree=2)),
-                     ('linear', LinearRegression(fit_intercept=False))])
-    reg = model.fit(x_train, y_train)
+                      ('linear', LinearRegression(fit_intercept=False))])
+    reg = model.fit(x, y)
 
-    # reg = LinearRegression().fit(x_train, y_train)
+    predictions = reg.predict(input_data)
 
-    predictions = reg.predict(x_test)
-    for i in range(len(predictions)):
-        if predictions[i] > 0.5:
-            predictions[i] = 1
-        else:
-            predictions[i] = 0
+    probability = predictions[0]
+    color = 'green' if probability > 0.5 else 'red'
 
-    count = 0
-    y_test = np.array(y_test)
-    for i in range(len(predictions)):
-        if(y_test[i] == predictions[i]):
-            count = count + 1
-    accuracy = count/len(predictions)
-
-    if(predictions[len(x_test)-1] < 0.5):
-        color = "red"
-    else:
-        color = "green"
-
-    return {"method": "PolyReg", "color": color, "prediction": 100*accuracy}
+    return {"color": color, "probability": probability}
 
 
 def manova(test_row, data, categorical):
@@ -129,11 +53,11 @@ def manova(test_row, data, categorical):
         data[val] = le.fit_transform(data[val])
 
     for col in data.columns:
-        if(col not in categorical):
-            data[col] = (data[col] - np.mean(data[col]))/np.std(data[col])
+        if (col not in categorical):
+            data[col] = (data[col] - np.mean(data[col])) / np.std(data[col])
 
-    test_row = data.iloc[len(data)-1]
-    data.drop([len(data)-1])
+    test_row = data.iloc[len(data) - 1]
+    data.drop([len(data) - 1])
 
     data_good = data[data[10] == 0]
     data_bad = data[data[10] == 1]
@@ -152,15 +76,15 @@ def manova(test_row, data, categorical):
     out_good = np.array(output_good['x0']['stat'])
     out_bad = np.array(output_bad['x0']['stat'])
 
-	# Wilki's Lambda
+    # Wilki's Lambda
     WL_good = out_good[0][0]
-    
+
     # Pillai's Trace
     PT_good = out_good[1][0]
-    
+
     # Hotelling-Lawley Trace
     HT_good = out_good[2][0]
-    
+
     # Roy's Greatest Roots
     RGR_good = out_good[3][0]
 
@@ -180,15 +104,15 @@ def manova(test_row, data, categorical):
 
     out_test = np.array(output_test['x0']['stat'])
 
-	# Wilki's Lambda
+    # Wilki's Lambda
     WL_test_good = out_test[0][0]
-    
+
     # Pillai's Trace
     PT_test_good = out_test[1][0]
-    
+
     # Hotelling-Lawley Trace
     HT_test_good = out_test[2][0]
-    
+
     # Roy's Greatest Roots
     RGR_test_good = out_test[3][0]
 
@@ -205,8 +129,13 @@ def manova(test_row, data, categorical):
     HT_test_bad = out_test[2][0]
     RGR_test_bad = out_test[3][0]
 
-    scorecard = {"method": "MANOVA", "WL_good": WL_good,
-                 "WL_test_good": WL_test_good, "WL_bad": WL_bad, "WL_test_bad": WL_test_bad}
+    scorecard = {
+        "method": "MANOVA",
+        "WL_good": WL_good,
+        "WL_test_good": WL_test_good,
+        "WL_bad": WL_bad,
+        "WL_test_bad": WL_test_bad
+    }
 
     ret = "WL good : " + str(WL_good) + " WL test good : " + str(WL_test_good) + \
         "\nWL bad : " + \
@@ -216,40 +145,74 @@ def manova(test_row, data, categorical):
     return scorecard
 
 
-def stat_score(input_row, model_type):
-    df = pd.read_csv(f'zoo/data/german.csv', index_col=0)
-    data = df.drop(columns=['Saving accounts', 'Checking account', 'Risk'])
-        
-    dat_dict = data.to_dict()
+def rename_df_columns(df):
+    dat_dict = df.to_dict()
     new_dat_dict = {}
 
-    # rename columns(Make them lowercase and snakecase)
     for key, value in dat_dict.items():
         newKey = key
         if type(key) == str:
             newKey = newKey.lower().replace(' ', '_')
-        # if newKey != key:
         new_dat_dict[newKey] = dat_dict[key]
     del dat_dict
 
-    data = pd.DataFrame.from_dict(new_dat_dict)
+    df = pd.DataFrame.from_dict(new_dat_dict)
     del new_dat_dict
-    
+
+    return df
+
+
+def prepare_data(data):
+
+    data['job'] = data['job'].astype('int')
+
     cols = data.columns
     num_cols = data._get_numeric_data().columns
     categorical = list(set(cols) - set(num_cols))
-    
-    print(categorical)
-    print(input_row)
+
+    le = LabelEncoder()
+    for val in categorical:
+        data[val] = le.fit_transform(data[val])
+
+    for col in data.columns:
+        if col not in categorical:
+            data[col] = (data[col] - np.mean(data[col])) / np.std(data[col])
+
+    input_data = data.iloc[len(data) - 1]
+    input_data = input_data.to_dict()
+    input_data = pd.DataFrame(input_data, index=[0]).drop(columns=['risk'])
+
+    return data, input_data
+
+
+def stat_score(input_data, model_type):
+    df = pd.read_csv(f'zoo/data/german.csv', index_col=0)
+    dataset = df.drop(columns=['Saving accounts', 'Checking account'])
+    dataset = dataset.dropna()
+
+    # rename columns(Make them lowercase and snakecase)
+    dataset = rename_df_columns(dataset)
+
+    # Assume input risk is bad
+    input_data['risk'] = 'bad'
+    dataset.loc[len(dataset)] = input_data
+
+    # Prepare and normalize data
+    dataset, input_data = prepare_data(dataset)
 
     try:
-        if(model_type == 'manova'):
-            output = manova(input_row, data, categorical)
-        elif(model_type == 'linearRegression'):
-            output = linear_regression(input_row, data, categorical)
-        elif(model_type == 'polynomialRegression'):
-            output = polynomial_regression(input_row, data, categorical)
+        if model_type == 'manova':
+            raise APIException(
+                "Statistical Method Manova is not implemented yet")
+            # output = manova(input_data, dataset)
 
+        elif model_type == 'linearRegression':
+            output = linear_regression(input_data, dataset)
+
+        elif model_type == 'polynomialRegression':
+            output = polynomial_regression(input_data, dataset)
+
+        output['method'] = model_type
         return output
 
     except Exception as e:

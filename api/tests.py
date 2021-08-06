@@ -18,7 +18,6 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 
-
 test_data = {
     "age": 22,
     "sex": "female",
@@ -31,11 +30,11 @@ test_data = {
 
 expected_output = 'bad'
 
-class AlgorithmTests(TestCase):
 
+class AlgorithmTests(TestCase):
     def test_predict_view(self):
         client = APIClient()
-        
+
         classifier_url = "/api/v1/algorithms/predict?classifier=RandomForestClassifier&version=0.0.1"
         response = client.post(classifier_url, test_data, format='json')
         self.assertEqual(response.status_code, 200)

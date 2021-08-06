@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # =============================================================================
-
 """
 Definition of urls for api resource.
 """
@@ -26,22 +25,27 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 from api.views import AlgorithmViewSet, DatasetViewSet, PredictionRequestViewSet
 
-
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r"algorithms", AlgorithmViewSet, basename="algorithms")
 router.register(r"datasets", DatasetViewSet, basename="datasets")
-router.register(r"requests", PredictionRequestViewSet, basename="prediction_requests")
+router.register(r"requests",
+                PredictionRequestViewSet,
+                basename="prediction_requests")
 
 urlpatterns = [
     # API docs
     path('api-docs/', SpectacularAPIView.as_view(), name='api-docs'),
+    
     # Optional UI:
-    path('api-docs/swagger-ui', SpectacularSwaggerView.as_view(url_name='api-docs'), name='swagger-ui'),
-    path('api-docs/redoc', SpectacularRedocView.as_view(url_name='api-docs'), name='redoc'),
+    path('api-docs/swagger-ui',
+         SpectacularSwaggerView.as_view(url_name='api-docs'),
+         name='swagger-ui'),
+    path('api-docs/redoc',
+         SpectacularRedocView.as_view(url_name='api-docs'),
+         name='redoc'),
 
     # API Views
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
+    path('api-auth/', include('rest_framework.urls',
+                              namespace='rest_framework')),
     path('api/v1/', include(router.urls)),
 ]
- 

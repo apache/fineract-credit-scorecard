@@ -25,7 +25,8 @@ from django.db import models
 class Dataset(models.Model):
     name = models.CharField(max_length=128, unique=True)
     region = models.CharField(max_length=128, unique=True)
-    
+
+
 class Algorithm(models.Model):
     '''
     The MLAlgorithm represent the ML algorithm object.
@@ -44,8 +45,10 @@ class Algorithm(models.Model):
     description: str = models.TextField(blank=True, null=True)
     version: str = models.CharField(max_length=128)
     status: str = models.CharField(max_length=128)
-    dataset: Dataset = models.ForeignKey(Dataset, to_field="name",
-                                         null=True, on_delete=models.SET_NULL)
+    dataset: Dataset = models.ForeignKey(Dataset,
+                                         to_field="name",
+                                         null=True,
+                                         on_delete=models.SET_NULL)
     created_at: date = models.DateTimeField(auto_now_add=True, blank=True)
     created_by: str = models.CharField(max_length=128)
 
@@ -59,9 +62,10 @@ class Algorithm(models.Model):
                 Created By: {self.created_by}
                 Created At: {self.created_at}
                 """
-                
+
     class Meta:
         ordering = ['created_at']
+
 
 class PredictionRequest(models.Model):
     '''
@@ -82,7 +86,9 @@ class PredictionRequest(models.Model):
     prediction = models.CharField(max_length=128)
     feedback = models.CharField(max_length=128, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-    algorithm: Algorithm = models.ForeignKey(Algorithm, on_delete=models.DO_NOTHING, blank=True)
+    algorithm: Algorithm = models.ForeignKey(Algorithm,
+                                             on_delete=models.DO_NOTHING,
+                                             blank=True)
     created_at: date = models.DateTimeField(auto_now_add=True, blank=True)
     created_by = models.CharField(max_length=128)
 
@@ -96,6 +102,6 @@ class PredictionRequest(models.Model):
                 Created By: {self.created_by}
                 Created At: {self.created_at}
                 """
-                
+
     class Meta:
         ordering = ['created_at']

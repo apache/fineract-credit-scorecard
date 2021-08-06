@@ -27,12 +27,13 @@ class DatasetSerializer(serializers.ModelSerializer):
         model = Dataset
         fields = '__all__'
 
-class AlgorithmSerializer(serializers.ModelSerializer):
 
+class AlgorithmSerializer(serializers.ModelSerializer):
     class Meta:
         model = Algorithm
         fields = '__all__'
-  
+
+
 class PredictionRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = PredictionRequest
