@@ -26,7 +26,6 @@ buildscript {
 plugins {
     id "java"
     id "org.openapi.generator" version "5.1.0"
-    id 'org.nosphere.apache.rat' version '0.7.0'
     id "com.github.hierynomus.license" version"0.15.0"
 }
 
@@ -54,15 +53,6 @@ task licenseFormatBuildScripts (type:nl.javadude.gradle.plugins.license.License)
 }
 
 licenseFormat.dependsOn licenseFormatBuildScripts
-
-rat {
-    verbose = false
-    reportDir = file("$buildDir/reports/rat")
-    excludes = [
-        '**/licenses/**',
-        '**/*.md',
-    ]
-}
 
 task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
     inputSpec = "$openapiSpecFile"
