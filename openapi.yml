@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Fineract CN Amun
+  title: Fineract Credit Scorecard
   version: 1.0.0
   description: An API module for credit risk assessment
   license:
