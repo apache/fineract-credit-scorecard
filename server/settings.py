@@ -106,8 +106,13 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('DBNAME', 'fineract_credit_scorecard'),
+        'USER': os.environ.get('DBUSER', 'root'),
+        'PASSWORD': os.environ.get('DBPASSWORD', 'mysql'),
+        'HOST': os.environ.get('DBHOST', '127.0.0.1'),
+        'PORT': os.environ.get('DBPORT', '3306'),
         'OPTIONS': {
-            'read_default_file': 'mysql.cnf',
+            'read_default_file': 'MySQL.cnf',
         },
     },
     'sqlite3': {

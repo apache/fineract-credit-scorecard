@@ -42,4 +42,3 @@ class AlgorithmTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["label"], expected_output)
         self.assertTrue("request_id" in response.data)
-        self.assertTrue("status" in response.data)

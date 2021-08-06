@@ -13,22 +13,21 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.7, 3.8]
+
+    services:
+          mysql:
+            image: mysql:5.7
+            env:
+              MYSQL_ROOT_PASSWORD: mysql
+              MYSQL_DATABASE: fineract_credit_scorecard
+            ports:
+              - '3306:3306'
+            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
     - uses: actions/checkout@v2
     
-    - name: Shutdown Ubuntu MySQL (SUDO)
-      run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
-
-    - name: Start MySQL/Mariadb
-      uses: shogo82148/actions-setup-mysql@v1
-      with:
-        mysql-version: '5.7'
-        root-password: 'mysql'
-        auto-start: true
-      run: mysql -uroot -pmysql -h127.0.0.1 -e 'CREATE DATABASE fineract_scorecard;'
-
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -38,6 +37,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Run Migrations
+      run: python manage.py migrate
 
     - name: Run Tests
       run: |
