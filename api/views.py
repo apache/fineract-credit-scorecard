@@ -87,7 +87,7 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
 
         try:
             classifier = self.request.query_params.get("classifier")
-            region = self.request.query_params.get("dataset", "Germany")
+            region = self.request.query_params.get("dataset", "german")
             version = self.request.query_params.get("version", "0.0.1")
             status = self.request.query_params.get("status", "production")
             

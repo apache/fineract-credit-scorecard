@@ -111,7 +111,6 @@ class Classifier(object):
             data: array
                 Data to perform prediction on.
         """
-        log.info("------------Predict Probability------------")
         return self.model.predict_proba(data)
     
     def postprocessing(self, prediction):
@@ -121,7 +120,6 @@ class Classifier(object):
         return {"probability": prediction[1], "label": label}
     
     def compute_prediction(self, data: Dict[str, Any]):
-        log.info("------------Compute Prediction------------")
         try:
             input_data = self.preprocessing(data)
             prediction = self.predict(input_data)[0]
