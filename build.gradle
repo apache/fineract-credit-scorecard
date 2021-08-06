@@ -26,24 +26,51 @@ buildscript {
 plugins {
     id "java"
     id "org.openapi.generator" version "5.1.0"
+    id 'org.nosphere.apache.rat' version '0.7.0'
+    id "com.github.hierynomus.license" version"0.15.0"
 }
 
-description = 'Fineract CN Sekhmet Build Tool'
+description = 'Fineract Credit Scorecard Build Tool'
 
 ext['openapiSpecFile'] = "$rootDir/openapi.yml".toString()
 
-task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
-    // outputs.upToDateWhen { false }
-    // outputs.cacheIf { false }
+license {
+    header rootProject.file("$rootDir/APACHE_LICENSETEXT.md")
+    excludes([
+        "**/gradlew*"
+    ])
+    strictCheck true
+}
 
+task licenseFormatBuildScripts (type:nl.javadude.gradle.plugins.license.License) {
+    source = fileTree(dir: "$rootDir/", includes: [
+        '**/*.bat',
+        '**/*.sh',
+        '**/*.sql',
+        '**/*.java'
+    ], excludes: [
+        '**/gradlew*'
+    ])
+}
+
+licenseFormat.dependsOn licenseFormatBuildScripts
+
+rat {
+    verbose = false
+    reportDir = file("$buildDir/reports/rat")
+    excludes = [
+        '**/licenses/**',
+        '**/*.md',
+    ]
+}
+
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
     inputSpec = "$openapiSpecFile"
 }
 
-// TODO: @vidakovic we should publish this lib to Maven Central; do in separate PR
-
 openApiMeta {
     generatorName = 'Fineract'
-    packageName = 'org.apache.fineract.cn.sekhmet'
+    packageName = 'org.apache.fineract.credit.scorecard'
     outputFolder = "$buildDir/meta".toString()
 }
 
@@ -52,7 +79,7 @@ openApiValidate {
     recommend = true
 }
 
-task buildJavaSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+task buildJavaSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
     generatorName = 'java'
     verbose = false
     validateSpec = true
@@ -60,42 +87,48 @@ task buildJavaSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateT
     inputSpec = "$openapiSpecFile"
     outputDir = "$buildDir/generated/java".toString()
     groupId = 'org.apache.fineract.cn'
-    id = 'sekhmet-java-client'
-    apiPackage = 'org.apache.fineract.cn.sekhmet.services'
-    invokerPackage = 'org.apache.fineract.cn.sekhmet'
-    modelPackage = 'org.apache.fineract.cn.sekhmet.models'
+    id = 'credit-scorecard-java-client'
+    apiPackage = 'org.apache.fineract.credit.scorecard.services'
+    invokerPackage = 'org.apache.fineract.credit.scorecard'
+    modelPackage = 'org.apache.fineract.credit.scorecard.models'
     configOptions = [
         dateLibrary: 'java8',
-        // useRxJava2: 'false',
-        // library: 'retrofit2',
         hideGenerationTimestamp: 'true',
     ]
     generateModelTests = false
     generateApiTests = false
-    // finalizedBy = [licenseFormat]
+    finalizedBy = ["copyClients"]
 }
 
-task buildTypescriptAngularSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+task buildTypescriptAngularSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
     generatorName = 'typescript-angular'
     verbose = false
     validateSpec = false
     skipValidateSpec = true
     inputSpec = "$openapiSpecFile"
     outputDir = "$buildDir/generated/typescript".toString()
-    apiPackage = 'org.apache.fineract.cn.sekhmet.services'
-    invokerPackage = 'org.apache.fineract.cn.sekhmet'
-    modelPackage = 'org.apache.fineract.cn.sekhmet.models'
+    apiPackage = 'org.apache.fineract.credit.scorecard.services'
+    invokerPackage = 'org.apache.fineract.credit.scorecard'
+    modelPackage = 'org.apache.fineract.credit.scorecard.models'
     configOptions = [
-        apiModulePrefix: 'sekhmet',
-        configurationPrefix: 'sekhmet',
+        apiModulePrefix: 'scorecard',
+        configurationPrefix: 'scorecard',
         ngVersion: '10.0.0',
-        npmName: 'apache-fineract-cn-sekhmet-client'
+        npmName: 'apache-fineract-credit-scorecard-client'
     ]
-    // finalizedBy = [licenseFormat]
+    finalizedBy = [licenseFormat]
 }
 
-// TODO: @vidakovic we could provide even more client libs in different languages (Go, Ruby, Swift etc.)
-// compileJava.dependsOn buildJavaSdk, spotlessJavaApply, buildTypescriptAngularSdk
+task copyClients {
+    copy {
+        from 'build/generated'
+        into 'clients'
+        exclude '**/*.sbt', '**/*.bat', '**/*.yml', '**/*.sh', '**/api', '**/.openapi-generator', '**/.openapi-generator-ignore', '**/gradle', '**/gradlew'
+        // filter(ReplaceTokens, tokens: [version: '2.3.1'])
+    }
+
+    finalizedBy = [licenseFormat]
+}
 
 sourceSets {
     generated {
@@ -106,22 +139,12 @@ sourceSets {
 }
 
 java {
-    // keep this at Java 8, not 11; see https://issues.apache.org/jira/browse/FINERACT-1214
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 compileJava {
     source += sourceSets.generated.java
-}
-
-tasks.withType(JavaCompile) {
-    // the generated code in build/generated/java/src/main/java/org/apache/fineract/client/auth/OAuthOkHttpClient.java#L71 currently uses deprecated RequestBody.create(MediaType,String)
-    // TODO FINERACT-1247 why does this not work:
-    //   options.compilerArgs -= ["-Xlint:deprecation"]
-    //   options.compilerArgs += ["-Xlint:-deprecation"]
-    // So we just have to use:
-    options.compilerArgs -= ["-Werror"]
 }
 
 configurations {
