@@ -1,0 +1,29 @@
+version: "3.9"
+   
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./data/db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: skdcnwauicn2ucnaecasdsajdnizucawencascdca
+      MYSQL_DATABASE: fineract_credit_scorecard
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "--password=skdcnwauicn2ucnaecasdsajdnizucawencascdca" ]
+      timeout: 10s
+      retries: 10
+    ports:
+      - 4306:4306
+
+  app:
+    build: .
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=4306
+      - DB_PASSWORD=skdcnwauicn2ucnaecasdsajdnizucawencascdca
+  

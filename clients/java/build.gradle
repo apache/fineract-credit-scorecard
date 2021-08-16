@@ -2,7 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'java'
 
-group = 'org.apache.fineract.cn'
+group = 'org.apache.fineract'
 version = '1.0.0'
 
 buildscript {

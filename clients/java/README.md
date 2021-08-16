@@ -37,7 +37,7 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-  <groupId>org.apache.fineract.cn</groupId>
+  <groupId>org.apache.fineract</groupId>
   <artifactId>credit-scorecard-java-client</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
@@ -49,7 +49,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.apache.fineract.cn:credit-scorecard-java-client:1.0.0"
+compile "org.apache.fineract:credit-scorecard-java-client:1.0.0"
 ```
 
 ### Others

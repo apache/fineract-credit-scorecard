@@ -42,9 +42,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'fd363ff3-ab24-476d-8409-9a45ab0300f9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', True),
 
 ALLOWED_HOSTS = []
+
+# SECURE_SSL_REDIRECT = True
+
+# SESSION_COOKIE_SECURE = True
+
+# CSRF_COOKIE_SECURE = True
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
@@ -106,11 +112,11 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DBNAME', 'fineract_credit_scorecard'),
-        'USER': os.environ.get('DBUSER', 'root'),
-        'PASSWORD': os.environ.get('DBPASSWORD', 'mysql'),
-        'HOST': os.environ.get('DBHOST', '127.0.0.1'),
-        'PORT': os.environ.get('DBPORT', '3306'),
+        'NAME': os.environ.get('DB_NAME', 'fineract_credit_scorecard'),
+        'USER': os.environ.get('DB_USER', 'root'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'mysql'),
+        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('DB_PORT', '3306'),
         'OPTIONS': {
             'read_default_file': 'MySQL.cnf',
         },

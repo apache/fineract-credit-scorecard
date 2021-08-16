@@ -76,7 +76,7 @@ task buildJavaSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateT
     skipValidateSpec = true
     inputSpec = "$openapiSpecFile"
     outputDir = "$buildDir/generated/java".toString()
-    groupId = 'org.apache.fineract.cn'
+    groupId = 'org.apache.fineract'
     id = 'credit-scorecard-java-client'
     apiPackage = 'org.apache.fineract.credit.scorecard.services'
     invokerPackage = 'org.apache.fineract.credit.scorecard'
