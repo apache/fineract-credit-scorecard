@@ -1,7 +1,7 @@
 # credit-scorecard-java-client
 
 Fineract Credit Scorecard
-- API version: 1.0.0
+- API version: 0.1.0-SNAPSHOT
 
 An API module for credit risk assessment
 
@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>org.apache.fineract</groupId>
   <artifactId>credit-scorecard-java-client</artifactId>
-  <version>1.0.0</version>
+  <version>0.1.0-SNAPSHOT</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -49,7 +49,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.apache.fineract:credit-scorecard-java-client:1.0.0"
+compile "org.apache.fineract:credit-scorecard-java-client:0.1.0-SNAPSHOT"
 ```
 
 ### Others
@@ -62,7 +62,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/credit-scorecard-java-client-1.0.0.jar`
+* `target/credit-scorecard-java-client-0.1.0-SNAPSHOT.jar`
 * `target/lib/*.jar`
 
 ## Getting Started

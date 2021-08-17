@@ -82,8 +82,14 @@ task buildJavaSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateT
     invokerPackage = 'org.apache.fineract.credit.scorecard'
     modelPackage = 'org.apache.fineract.credit.scorecard.models'
     configOptions = [
+        fullJavaUtil: 'true',
         dateLibrary: 'java8',
         hideGenerationTimestamp: 'true',
+
+        developerEmail: 'dev@fineract.apache.org',
+        developerName: 'Apache Fineract',
+        developerOrganization: 'Apache Software Foundation',
+        developerOrganizationUrl: 'https://apache.org'
     ]
     generateModelTests = false
     generateApiTests = false
@@ -113,7 +119,7 @@ task copyClients {
     copy {
         from 'build/generated'
         into 'clients'
-        exclude '**/*.sbt', '**/*.bat', '**/*.yml', '**/*.sh', '**/api', '**/.openapi-generator', '**/.openapi-generator-ignore', '**/gradle', '**/gradlew'
+        exclude '**/*.sbt', '**/*.yml', '**/*.sh', '**/api', '**/.openapi-generator', '**/.openapi-generator-ignore'
         // filter(ReplaceTokens, tokens: [version: '2.3.1'])
     }
 

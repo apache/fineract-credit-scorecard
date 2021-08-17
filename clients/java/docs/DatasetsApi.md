@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 <a name="datasetsList"></a>
 # **datasetsList**
-> List&lt;Dataset&gt; datasetsList()
+> java.util.List&lt;Dataset&gt; datasetsList()
 
 
 
@@ -30,7 +30,7 @@ public class Example {
 
     DatasetsApi apiInstance = new DatasetsApi(defaultClient);
     try {
-      List<Dataset> result = apiInstance.datasetsList();
+      java.util.List<Dataset> result = apiInstance.datasetsList();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling DatasetsApi#datasetsList");
@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List&lt;Dataset&gt;**](Dataset.md)
+[**java.util.List&lt;Dataset&gt;**](Dataset.md)
 
 ### Authorization
 

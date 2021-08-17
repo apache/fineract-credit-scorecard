@@ -133,7 +133,7 @@ No authorization required
 
 <a name="requestsList"></a>
 # **requestsList**
-> List&lt;PredictionRequest&gt; requestsList()
+> java.util.List&lt;PredictionRequest&gt; requestsList()
 
 
 
@@ -153,7 +153,7 @@ public class Example {
 
     RequestsApi apiInstance = new RequestsApi(defaultClient);
     try {
-      List<PredictionRequest> result = apiInstance.requestsList();
+      java.util.List<PredictionRequest> result = apiInstance.requestsList();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling RequestsApi#requestsList");
@@ -171,7 +171,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List&lt;PredictionRequest&gt;**](PredictionRequest.md)
+[**java.util.List&lt;PredictionRequest&gt;**](PredictionRequest.md)
 
 ### Authorization
 

@@ -134,7 +134,7 @@ No authorization required
 
 <a name="algorithmsList"></a>
 # **algorithmsList**
-> List&lt;Algorithm&gt; algorithmsList()
+> java.util.List&lt;Algorithm&gt; algorithmsList()
 
 
 
@@ -154,7 +154,7 @@ public class Example {
 
     AlgorithmsApi apiInstance = new AlgorithmsApi(defaultClient);
     try {
-      List<Algorithm> result = apiInstance.algorithmsList();
+      java.util.List<Algorithm> result = apiInstance.algorithmsList();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AlgorithmsApi#algorithmsList");
@@ -172,7 +172,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List&lt;Algorithm&gt;**](Algorithm.md)
+[**java.util.List&lt;Algorithm&gt;**](Algorithm.md)
 
 ### Authorization
 
@@ -277,7 +277,7 @@ public class Example {
     String version = "0.0.1"; // String | Algorithm version
     String dataset = "german"; // String | The name of the dataset
     String status = "production"; // String | The status of the algorithm
-    Map<String, Object> requestBody = null; // Map<String, Object> | 
+    java.util.Map<String, Object> requestBody = null; // java.util.Map<String, Object> | 
     try {
       PredictionResponse result = apiInstance.algorithmsPredict(classifier, version, dataset, status, requestBody);
       System.out.println(result);
@@ -300,7 +300,7 @@ Name | Type | Description  | Notes
  **version** | **String**| Algorithm version | [default to 0.0.1]
  **dataset** | **String**| The name of the dataset | [optional]
  **status** | **String**| The status of the algorithm | [optional]
- **requestBody** | [**Map&lt;String, Object&gt;**](Object.md)|  | [optional]
+ **requestBody** | [**java.util.Map&lt;String, Object&gt;**](Object.md)|  | [optional]
 
 ### Return type
 

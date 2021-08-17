@@ -168,7 +168,7 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Fineract Credit Scorecard',
     'DESCRIPTION': 'An API module for credit risk assessment',
-    'VERSION': '1.0.0',
+    'VERSION': '0.1.0-SNAPSHOT',
     'LICENSE': {'name': 'Apache-2.0', 'url': 'https://www.apache.org/licenses/LICENSE-2.0.html'},
     'SERVE_INCLUDE_SCHEMA': False,
     'SCHEMA_PATH_PREFIX': r'/api/v[0-9]',
