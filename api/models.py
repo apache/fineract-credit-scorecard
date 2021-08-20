@@ -91,7 +91,7 @@ class PredictionRequest(models.Model):
     notes = models.TextField(blank=True, null=True)
     algorithm: Algorithm = models.ForeignKey(Algorithm,
                                              on_delete=models.DO_NOTHING,
-                                             blank=True)
+                                             blank=True, null=True)
     created_at: date = models.DateTimeField(auto_now_add=True, blank=True)
     created_by = models.CharField(max_length=128)
 
