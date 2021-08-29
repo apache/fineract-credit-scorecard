@@ -12,9 +12,9 @@ paths:
       operationId: algorithms_list
       description: ''
       tags:
-      - algorithms
+        - algorithms
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -28,7 +28,7 @@ paths:
       operationId: algorithms_create
       description: ''
       tags:
-      - algorithms
+        - algorithms
       requestBody:
         content:
           application/json:
@@ -42,7 +42,7 @@ paths:
               $ref: '#/components/schemas/Algorithm'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '201':
           content:
@@ -55,16 +55,16 @@ paths:
       operationId: algorithms_retrieve
       description: ''
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this algorithm.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this algorithm.
+          required: true
       tags:
-      - algorithms
+        - algorithms
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -76,14 +76,14 @@ paths:
       operationId: algorithms_update
       description: ''
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this algorithm.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this algorithm.
+          required: true
       tags:
-      - algorithms
+        - algorithms
       requestBody:
         content:
           application/json:
@@ -97,7 +97,7 @@ paths:
               $ref: '#/components/schemas/Algorithm'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -109,14 +109,14 @@ paths:
       operationId: algorithms_partial_update
       description: ''
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this algorithm.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this algorithm.
+          required: true
       tags:
-      - algorithms
+        - algorithms
       requestBody:
         content:
           application/json:
@@ -130,7 +130,7 @@ paths:
               $ref: '#/components/schemas/Algorithm'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -142,16 +142,16 @@ paths:
       operationId: algorithms_destroy
       description: ''
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this algorithm.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this algorithm.
+          required: true
       tags:
-      - algorithms
+        - algorithms
       security:
-      - {}
+        - {}
       responses:
         '204':
           description: No response body
@@ -160,48 +160,48 @@ paths:
       operationId: algorithms_predict
       description: Predict credit risk for a loan
       parameters:
-      - in: query
-        name: classifier
-        schema:
-          type: string
-        description: The algorithm/classifier to use
-        required: true
-        examples:
-          Example1:
-            value: RandomForestClassifier
-            summary: Example 1
-      - in: query
-        name: dataset
-        schema:
-          type: string
-        description: The name of the dataset
-        examples:
-          Example1:
-            value: german
-            summary: Example 1
-      - in: query
-        name: status
-        schema:
-          type: string
-        description: The status of the algorithm
-        deprecated: true
-        examples:
-          Example1:
-            value: production
-            summary: Example 1
-      - in: query
-        name: version
-        schema:
-          type: string
-          default: 0.0.1
-        description: Algorithm version
-        required: true
-        examples:
-          Example1:
-            value: 0.0.1
-            summary: Example 1
+        - in: query
+          name: classifier
+          schema:
+            type: string
+          description: The algorithm/classifier to use
+          required: true
+          examples:
+            Example1:
+              value: RandomForestClassifier
+              summary: Example 1
+        - in: query
+          name: dataset
+          schema:
+            type: string
+          description: The name of the dataset
+          examples:
+            Example1:
+              value: german
+              summary: Example 1
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: The status of the algorithm
+          deprecated: true
+          examples:
+            Example1:
+              value: production
+              summary: Example 1
+        - in: query
+          name: version
+          schema:
+            type: string
+            default: 0.0.1
+          description: Algorithm version
+          required: true
+          examples:
+            Example1:
+              value: 0.0.1
+              summary: Example 1
       tags:
-      - algorithms
+        - algorithms
       requestBody:
         content:
           application/json:
@@ -220,7 +220,7 @@ paths:
               additionalProperties: {}
               description: Unspecified request body
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -233,9 +233,9 @@ paths:
       operationId: datasets_list
       description: ''
       tags:
-      - datasets
+        - datasets
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -250,16 +250,16 @@ paths:
       operationId: datasets_retrieve
       description: ''
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this dataset.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this dataset.
+          required: true
       tags:
-      - datasets
+        - datasets
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -272,9 +272,9 @@ paths:
       operationId: requests_list
       description: ''
       tags:
-      - requests
+        - requests
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -288,7 +288,7 @@ paths:
       operationId: requests_create
       description: ''
       tags:
-      - requests
+        - requests
       requestBody:
         content:
           application/json:
@@ -302,7 +302,7 @@ paths:
               $ref: '#/components/schemas/PredictionRequest'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '201':
           content:
@@ -315,16 +315,16 @@ paths:
       operationId: requests_retrieve
       description: ''
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this prediction request.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this prediction request.
+          required: true
       tags:
-      - requests
+        - requests
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -336,14 +336,14 @@ paths:
       operationId: requests_update
       description: ''
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this prediction request.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this prediction request.
+          required: true
       tags:
-      - requests
+        - requests
       requestBody:
         content:
           application/json:
@@ -357,7 +357,7 @@ paths:
               $ref: '#/components/schemas/PredictionRequest'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -369,14 +369,14 @@ paths:
       operationId: requests_partial_update
       description: ''
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this prediction request.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this prediction request.
+          required: true
       tags:
-      - requests
+        - requests
       requestBody:
         content:
           application/json:
@@ -390,7 +390,7 @@ paths:
               $ref: '#/components/schemas/PredictionRequest'
         required: true
       security:
-      - {}
+        - {}
       responses:
         '200':
           content:
@@ -402,16 +402,16 @@ paths:
       operationId: requests_destroy
       description: ''
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this prediction request.
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          description: A unique integer value identifying this prediction request.
+          required: true
       tags:
-      - requests
+        - requests
       security:
-      - {}
+        - {}
       responses:
         '204':
           description: No response body
@@ -446,12 +446,12 @@ components:
           type: string
           nullable: true
       required:
-      - classifier
-      - created_at
-      - created_by
-      - id
-      - status
-      - version
+        - classifier
+        - created_at
+        - created_by
+        - id
+        - status
+        - version
     Dataset:
       type: object
       properties:
@@ -465,9 +465,9 @@ components:
           type: string
           maxLength: 128
       required:
-      - id
-      - name
-      - region
+        - id
+        - name
+        - region
     PredictionRequest:
       type: object
       properties:
@@ -500,12 +500,12 @@ components:
         algorithm:
           type: integer
       required:
-      - created_at
-      - created_by
-      - id
-      - input
-      - prediction
-      - response
+        - created_at
+        - created_by
+        - id
+        - input
+        - prediction
+        - response
     PredictionResponse:
       type: object
       properties:
@@ -533,15 +533,15 @@ components:
         request_id:
           type: integer
       required:
-      - color
-      - hotelling_tawley
-      - label
-      - method
-      - pillais_trace
-      - probability
-      - request_id
-      - roys_reatest_roots
-      - wilkis_lambda
+        - color
+        - hotelling_tawley
+        - label
+        - method
+        - pillais_trace
+        - probability
+        - request_id
+        - roys_reatest_roots
+        - wilkis_lambda
 servers:
-- url: http://127.0.0.1:8000
-  description: server on localhost
+  - url: http://127.0.0.1:8000
+    description: server on localhost

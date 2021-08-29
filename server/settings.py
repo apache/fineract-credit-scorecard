@@ -116,10 +116,7 @@ DATABASES = {
         'USER': os.environ.get('DB_USER', 'root'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'mysql'),
         'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
-        'PORT': os.environ.get('DB_PORT', '3306'),
-        'OPTIONS': {
-            'read_default_file': 'MySQL.cnf',
-        },
+        'PORT': os.environ.get('DB_PORT', '3306')
     },
     'sqlite3': {
         'ENGINE': 'django.db.backends.sqlite3',

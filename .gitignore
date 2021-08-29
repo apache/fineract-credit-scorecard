@@ -121,5 +121,8 @@ build
 
 .settings
 .project
+.classpath
 
 data/
+
+.idea
