@@ -19,7 +19,7 @@
 
 import json
 import logging
-from statistical_scripts.statistical_scoring import stat_score
+from stats.statistical_scoring import stat_score
 from typing import Any, Dict
 
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample, inline_serializer

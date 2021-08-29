@@ -16,14 +16,14 @@ jobs:
         python-version: [3.7, 3.8]
 
     services:
-          mysql:
-            image: mysql:5.7
-            env:
-              MYSQL_ROOT_PASSWORD: mysql
-              MYSQL_DATABASE: fineract_credit_scorecard
-            ports:
-              - '3306:3306'
-            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: mysql
+          MYSQL_DATABASE: fineract_credit_scorecard
+        ports:
+          - '3306:3306'
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
     - uses: actions/checkout@v2

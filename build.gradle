@@ -25,13 +25,18 @@ buildscript {
 
 plugins {
     id "java"
-    id "org.openapi.generator" version "5.1.0"
+    id "org.openapi.generator" version "5.2.1"
     id "com.github.hierynomus.license" version"0.15.0"
 }
 
 description = 'Fineract Credit Scorecard Build Tool'
 
 ext['openapiSpecFile'] = "$rootDir/openapi.yml".toString()
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 license {
     header rootProject.file("$rootDir/APACHE_LICENSETEXT.md")
@@ -93,36 +98,6 @@ task buildJavaSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateT
     ]
     generateModelTests = false
     generateApiTests = false
-    finalizedBy = ["copyClients"]
-}
-
-task buildTypescriptAngularSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
-    generatorName = 'typescript-angular'
-    verbose = false
-    validateSpec = false
-    skipValidateSpec = true
-    inputSpec = "$openapiSpecFile"
-    outputDir = "$buildDir/generated/typescript".toString()
-    apiPackage = 'org.apache.fineract.credit.scorecard.services'
-    invokerPackage = 'org.apache.fineract.credit.scorecard'
-    modelPackage = 'org.apache.fineract.credit.scorecard.models'
-    configOptions = [
-        apiModulePrefix: 'scorecard',
-        configurationPrefix: 'scorecard',
-        ngVersion: '10.0.0',
-        npmName: 'apache-fineract-credit-scorecard-client'
-    ]
-    finalizedBy = [licenseFormat]
-}
-
-task copyClients {
-    copy {
-        from 'build/generated'
-        into 'clients'
-        exclude '**/*.sbt', '**/*.yml', '**/*.sh', '**/api', '**/.openapi-generator', '**/.openapi-generator-ignore'
-        // filter(ReplaceTokens, tokens: [version: '2.3.1'])
-    }
-
     finalizedBy = [licenseFormat]
 }
 
@@ -134,11 +109,6 @@ sourceSets {
     }
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
 compileJava {
     source += sourceSets.generated.java
 }
@@ -146,8 +116,4 @@ compileJava {
 configurations {
     generatedCompile.extendsFrom implementation
     generatedRuntime.extendsFrom runtime
-}
-
-test {
-    useJUnitPlatform()
 }
