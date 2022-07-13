@@ -5,9 +5,9 @@ set -euxo pipefail
 mkdir -p build/run
 cp ./fineract/fineract-provider/build/libs/fineract-provider*.jar build/run
 
-# Add our scorecard-plugin reporting plugin, like so:
-unzip ./FINCS/scorecard-plugin/build/distributions/scorecard-plugin.zip -d build/run/
-rm build/run/scorecard-plugin.jar
+# Add our scorecard-plugin like so:
+unzip ./fineract-credit-scorecard/scorecard-plugin/build/distributions/scorecard-plugin.zip -d build/run/
+rm build/run/scorecard-plugin*.jar
 
 # Start!
-java -Dloader.path=build/run/lib/ -jar build/run/fineract-provider.jar
+java -Dloader.path=build/run/lib/ -jar build/run/fineract-provider*.jar
