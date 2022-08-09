@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'app',
     'api',
     'zoo',
+    'fl_learning',
     
     # Add your apps here to enable them
     'django.contrib.admin',
@@ -114,7 +115,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.environ.get('DB_NAME', 'fineract_credit_scorecard'),
         'USER': os.environ.get('DB_USER', 'root'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'mysql'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', '123456asd'),
         'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
         'PORT': os.environ.get('DB_PORT', '3306')
     },

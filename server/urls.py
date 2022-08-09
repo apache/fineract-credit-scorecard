@@ -29,8 +29,11 @@ from app import forms, views
 
 from api.urls import urlpatterns as api_urlpatterns
 from app.urls import urlpatterns as app_urlpatterns
+from fl_learning.urls import urlpatterns as fl_urlpatterns
 
 urlpatterns = []
 
 urlpatterns += api_urlpatterns
 urlpatterns += app_urlpatterns
+urlpatterns += fl_urlpatterns
+
