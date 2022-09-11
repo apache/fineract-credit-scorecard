@@ -2,14 +2,11 @@ from django.shortcuts import render
 
 # Create your views here.
 import pickle
-import sys
-from collections import OrderedDict
 
 import pandas as pd
 import torch as t
 import flwr as fl
 from socket import socket, AF_INET, SOCK_STREAM
-from django.shortcuts import render
 
 # Create your views here.
 from rest_framework.exceptions import APIException
@@ -17,8 +14,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from fl_learning.fl_utility import preprocessing
-from fl_learning.fl_model import classifier_train, Net, accuracy, ClassifierClient
-from ml.classifiers import RandomForestClassifier, MLP
+from fl_learning.fl_model import Net, ClassifierClient
+from ml.classifiers import MLP
 
 
 class FLModelTrainAPIView(APIView):
@@ -53,34 +50,19 @@ class FLModelTrainAPIView(APIView):
         X_train, X_test, y_train, y_test = preprocessing("German", data, test_size)
         X_train_tensor = t.FloatTensor(X_train)
         y_train_tensor = t.tensor(y_train, dtype=t.long)
-        X_test_tensor = t.FloatTensor(X_test)
-        y_test_tensor = t.tensor(y_test, dtype=t.long)
 
-        print(X_train[0])
-
-        # Define the input and output
         input_channels = X_train_tensor.shape[1]
         output_channels = 2
 
-        print(input_channels)
-
-        # Initialize the model
         net = Net(input_channels, output_channels)
-        # Define loss criterion
         criterion = t.nn.CrossEntropyLoss()
-        # Define the optimizer
         optimizer = t.optim.Adam(net.parameters(), lr=0.001)
-        # Number of epochs
         epochs = 5000
 
         client = ClassifierClient(net, X_train_tensor, y_train_tensor, criterion, optimizer, epochs)
 
         print(">>> Connect Flower server")
         fl.client.start_numpy_client("[::]:8085", client=client)
-
-        # for name, param in net.named_parameters():
-        #     if param.requires_grad:
-        #         print(name, param.data)
 
         print(">>> Send Model to Server")
         serialized_model = pickle.dumps(net.state_dict())
@@ -112,16 +94,6 @@ class FLModelPredictAPIView(APIView):
             "purpose": purpose
         }
 
-        # test_data = {
-        #     "age": 22,
-        #     "sex": "female",
-        #     "job": 2,
-        #     "housing": "own",
-        #     "credit_amount": 5951,
-        #     "duration": 48,
-        #     "purpose": "radio/TV"
-        # }
-
         my_alg = MLP()  # only use for processing the data
         data = my_alg.preprocessing(data).to_numpy()
         print(data)
@@ -147,9 +119,7 @@ class FLModelPredictAPIView(APIView):
         with t.no_grad():
             net.eval()
             y_pred_vector = net(data_tensor)
-            # val_loss = criterion(y_pred_vector, y_test_tensor)
             y_pred = net.predict(data_tensor)
-            # acc = (y_test_tensor == y_pred).sum() / y_test_tensor.size(0)
         print("Prediction vector:", y_pred_vector)
         print("Prediction Result:", y_pred)
         return Response("Successfully")

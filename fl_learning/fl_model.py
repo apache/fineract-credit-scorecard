@@ -43,22 +43,15 @@ class Net(t.nn.Module):
 def classifier_train(epochs, model, optimizer, X, y, criterion):
     losses = []
     for i in range(epochs):
-        # Precit the output for Given input
         y_pred = model.forward(X)
-        # Compute Cross entropy loss
         loss = criterion(y_pred, y)
-        # Add loss to the list
         losses.append(loss.item())
 
-        # Print loss
         if i % 500 == 0:
             print("Epoch:", i, " Loss:", loss.item())
 
-        # Clear the previous gradients
         optimizer.zero_grad()
-        # Compute gradients
         loss.backward()
-        # Adjust weights
         optimizer.step()
     return losses
 

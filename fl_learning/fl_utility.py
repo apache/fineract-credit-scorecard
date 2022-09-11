@@ -4,11 +4,8 @@ import logging
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from typing import Any, Dict, List
 
-from django.core.exceptions import BadRequest
 
 log = logging.getLogger(__name__)
 
@@ -100,21 +97,6 @@ def preprocessing(dataset, data, test_size):
         return data
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_size)
-    # x_train = pd.DataFrame(x_train)
-    # y_train = pd.DataFrame(y_train)
-    # y_test = pd.DataFrame(y_test)
-    #
-    # sc = StandardScaler()
-    # x_train = sc.fit_transform(x_train)
-    # x_test = sc.transform(x_test)
-    #
-    # y_train = y_train[y_train.columns[0]].to_numpy()
-    # y_test = y_test[y_test.columns[0]].to_numpy()
-
-    # print(X_train)
-    # print(X_test)
-    # print(y_train)
-    # print(y_test)
 
     return x_train.to_numpy(), x_test.to_numpy(), y_train.to_numpy(), y_test.to_numpy()
 
