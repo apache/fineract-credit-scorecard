@@ -7,7 +7,7 @@ drf-spectacular==0.17.0
 ipykernel==5.5.5
 ipython==7.24.0
 ipython-genutils==0.2.0
-joblib==1.0.1
+joblib==1.2.0
 jupyter-client==6.1.12
 jupyter-core==4.7.1
 mysqlclient==2.0.3
