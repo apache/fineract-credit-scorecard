@@ -180,7 +180,6 @@ def rename_df_columns(df):
 
     return df
 
-
 def prepare_data(data):
 
     data['job'] = data['job'].astype('int')
@@ -196,6 +195,10 @@ def prepare_data(data):
     for col in data.columns:
         if col not in categorical:
             data[col] = (data[col] - np.mean(data[col])) / np.std(data[col])
+
+    # Encode 'risk' column
+    le = LabelEncoder()
+    data['risk'] = le.fit_transform(data['risk'])
 
     input_data = data.iloc[len(data) - 1]
     input_data = input_data.to_dict()
