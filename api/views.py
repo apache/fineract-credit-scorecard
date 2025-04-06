@@ -149,8 +149,13 @@ class AlgorithmViewSet(viewsets.ModelViewSet):
             prediction["request_id"] = prediction_request.id
 
             return Response(prediction)
+        
+        except ValueError as e:
+            raise APIException(f"Invalid input values: {str(e)}")
+        except KeyError as e:
+            raise APIException(f"Missing required parameter: {str(e)}")
         except Exception as e:
-            raise APIException(str(e))
+            raise APIException(f"Error processing prediction request: {str(e)}")
 
 
 class PredictionRequestViewSet(viewsets.ModelViewSet):
